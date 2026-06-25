@@ -1,25 +1,31 @@
 onload = async () => {
-    // Parte 1: carregar dados do carro a ser editado e preencher o formulário
-    // Carrega os dados do carro a ser editado do banco de dados
-    // Preenche o formulário com os dados do carro
+    // Parte 1: carregar dados da avaliação a ser editada e preencher o formulário
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-    const idPlace = document.getElementById('id') as HTMLSpanElement;
+    const idPlace = document.getElementById('idAvaliacao') as HTMLSpanElement;
     if (id) {
         idPlace.textContent = id;
         try {
-            const response = await fetch(backendAddress + 'carros/umcarro/' + id + '/');
+            const response = await authFetch(backendAddress + 'midias/avaliacao/' + id + '/');
             if (response.ok) {
-                const carro = await response.json();
-                let campos = ['id', 'name', 'mpg', 'cyl', 'disp', 'hp', 'wt', 'qsec', 'vs', 'am', 'gear'];
-                campos.forEach(campo => {
-                    (document.getElementById(campo) as HTMLInputElement).value = carro[campo];
+                const avaliacao = await response.json();
+                // Preenche campos da avaliação
+                const camposAvaliacao = ['nota', 'comentario', 'assistido_em'];
+                camposAvaliacao.forEach(campo => {
+                    const el = document.getElementById(campo) as HTMLInputElement;
+                    if (el) el.value = avaliacao[campo] ?? '';
                 });
+                // Exibe info da mídia (somente leitura)
+                const midia = avaliacao['midia'] ?? {};
+                const infoMidia = document.getElementById('infoMidia') as HTMLParagraphElement;
+                if (infoMidia) {
+                    infoMidia.textContent = (midia['titulo'] ?? '') + ' (' + (midia['tipo'] ?? '') + ', ' + (midia['ano_lancamento'] ?? '') + ')';
+                }
             } else {
-                console.error('Erro ao buscar dados do carro:', response.status);
+                console.error('Erro ao buscar dados da avaliação:', response.status);
             }
         } catch (error) {
-            console.error('Erro ao buscar dados do carro:', error);
+            console.error('Erro ao buscar dados da avaliação:', error);
         }
     } else {
         idPlace.textContent = 'URL mal formada: ' + window.location;
@@ -27,10 +33,10 @@ onload = async () => {
     }
     // Parte 2: configurar o evento de clique do botão "Atualizar"
     const objBotao = document.getElementById('atualiza') as HTMLButtonElement;
-    objBotao.addEventListener('click', atualizaCarro);
+    objBotao.addEventListener('click', atualizaAvaliacao);
 }
 
-async function atualizaCarro(evento: MouseEvent) {
+async function atualizaAvaliacao(evento: MouseEvent) {
     evento.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
@@ -42,19 +48,20 @@ async function atualizaCarro(evento: MouseEvent) {
         const element = elements[i] as HTMLInputElement;
         if (element.name) { dados[element.name] = element.value; }
     }
-    
+
     try {
-        const response = await fetch(backendAddress + 'carros/umcarro/' + id + '/', {
+        const response = await authFetch(backendAddress + 'midias/avaliacao/' + id + '/', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
         });
         if (response.ok) {
-            (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Carro atualizado';
+            (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Avaliação atualizada com sucesso!';
         } else {
-            (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Erro ao atualizar';
+            const err = await response.json();
+            (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Erro ao atualizar: ' + JSON.stringify(err);
         }
     } catch (error) {
         console.error('Erro ao enviar dados para o backend:', error);
     }
-}  
+}
