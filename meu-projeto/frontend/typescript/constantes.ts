@@ -1,4 +1,4 @@
-const backendAddress = "https://literate-space-telegram-4xjxjq64g7x27qw-8000.app.github.dev/";
+const backendAddress = "http://localhost:8000/";
 
 interface JwtResposta {
     access: string; // token de acesso
