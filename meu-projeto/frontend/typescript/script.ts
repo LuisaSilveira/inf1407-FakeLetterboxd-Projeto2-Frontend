@@ -1,7 +1,39 @@
 onload = function() {
-    (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', evento => { location.href = 'insereReview.html' });
-    exibeListaDeAvaliacoes();
+    // configura ação dos botões
+    (document.getElementById('insere') as HTMLButtonElement)
+        .addEventListener('click', evento => { location.href = 'insereReview.html' });
+    (document.getElementById('remove') as HTMLButtonElement)
+        .addEventListener('click', apagaAvaliacoes);
+    exibeListaDeAvaliacoes(); // exibe lista de avaliações ao carregar a página
 }
+
+let apagaAvaliacoes = async (evento: Event) => {
+    evento.preventDefault();
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="id"]:checked');
+    const checkedValues: string[] = [];
+    checkboxes.forEach(checkbox => {
+        checkedValues.push(checkbox.value);
+    });
+    if (checkedValues.length === 0) {
+        alert('Selecione ao menos uma avaliação para remover.');
+        return;
+    }
+    try {
+        // O backend suporta DELETE individual por pk, então enviamos uma requisição por ID
+        for (const id of checkedValues) {
+            await authFetch(backendAddress + 'midias/avaliacao/' + id + '/', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        alert('Avaliações excluídas com sucesso!');
+    } catch (error) {
+        // Nota: Em um ambiente de produção, você deve lidar com erros de forma mais robusta
+        console.error('Erro ao enviar dados para o backend:', error);
+    } finally {
+        exibeListaDeAvaliacoes(); // Atualiza a lista após a exclusão
+    }
+};
 
 async function exibeListaDeAvaliacoes() {
     try {
@@ -40,6 +72,14 @@ async function exibeListaDeAvaliacoes() {
                 objTd.appendChild(href);
                 objTr.appendChild(objTd);
             });
+            // Coluna com checkbox para seleção de remoção
+            let checkbox = document.createElement('input') as HTMLInputElement;
+            checkbox.setAttribute('type', 'checkbox');
+            checkbox.setAttribute('name', 'id');
+            checkbox.setAttribute('value', avaliacao['id']);
+            let tdCheck = document.createElement('td') as HTMLTableCellElement;
+            tdCheck.appendChild(checkbox);
+            objTr.appendChild(tdCheck);
             objTBody.appendChild(objTr);
         });
     } catch (error) {
