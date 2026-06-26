@@ -51,20 +51,10 @@ async function exibeListaDeAvaliacoes() {
         objTBody.innerHTML = "";
         avaliacoes.forEach((avaliacao: any) => {
             let objTr = document.createElement("tr");
-            // Campos da mídia associada
-            const midia = avaliacao['midia'] ?? {};
-            const camposMidia = ['titulo', 'tipo'];
-            camposMidia.forEach(campo => {
-                let objTd = document.createElement("td");
-                let href = document.createElement('a') as HTMLAnchorElement;
-                href.href = 'update.html?id=' + avaliacao['id'];
-                href.textContent = midia[campo] ?? '';
-                objTd.appendChild(href);
-                objTr.appendChild(objTd);
-            });
-            // Campos da avaliação
-            const camposAvaliacao = ['nota', 'comentario', 'assistido_em', 'dt_avaliacao'];
-            camposAvaliacao.forEach(campo => {
+            // Campos retornados flat pelo AvaliacaoSerializer:
+            // titulo_midia, tipo_midia, nota, comentario, assistido_em, dt_avaliacao
+            const camposFlat = ['titulo_midia', 'tipo_midia', 'nota', 'comentario', 'assistido_em', 'dt_avaliacao'];
+            camposFlat.forEach(campo => {
                 let objTd = document.createElement("td");
                 let href = document.createElement('a') as HTMLAnchorElement;
                 href.href = 'update.html?id=' + avaliacao['id'];
@@ -76,7 +66,7 @@ async function exibeListaDeAvaliacoes() {
             let checkbox = document.createElement('input') as HTMLInputElement;
             checkbox.setAttribute('type', 'checkbox');
             checkbox.setAttribute('name', 'id');
-            checkbox.setAttribute('value', avaliacao['id']);
+            checkbox.setAttribute('value', String(avaliacao['id']));
             let tdCheck = document.createElement('td') as HTMLTableCellElement;
             tdCheck.appendChild(checkbox);
             objTr.appendChild(tdCheck);

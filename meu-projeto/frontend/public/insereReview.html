@@ -13,19 +13,21 @@
     <iframe src="cabecalho.html" frameborder="0" width="100%" height="50"></iframe>
     <h1>Inserir Avaliação</h1>
 
-    <!-- Busca de mídia via OMDB -->
+    <!-- Passo 1: Busca por título na OMDB -->
     <fieldset>
         <legend>Buscar Mídia (OMDB)</legend>
         <label for="queryOmdb">Título da mídia:</label>
         <input type="text" id="queryOmdb" placeholder="Ex: The Matrix">
         <button id="buscaOmdb">Buscar</button>
+        <!-- Passo 2: Lista de resultados — clique para selecionar -->
+        <ul id="listaResultados"></ul>
         <div id="resultadoBusca"></div>
     </fieldset>
 
     <!-- Formulário da avaliação -->
     <form id="meuFormulario">
-        <!-- imdb_id preenchido automaticamente pela busca OMDB -->
-        <input type="hidden" name="imdb_id" id="imdb_id">
+        <!-- ID interno da Midia no banco — preenchido ao selecionar um resultado OMDB -->
+        <input type="hidden" name="midia_id" id="midia_id">
         <table>
             <tbody>
                 <tr><td align="right">Nota (1 a 5):</td><td>

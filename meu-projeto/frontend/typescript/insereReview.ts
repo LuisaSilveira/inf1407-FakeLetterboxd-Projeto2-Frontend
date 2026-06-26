@@ -1,19 +1,49 @@
 onload = () => {
-    // Botão de busca OMDB: pesquisa a mídia e preenche o campo imdb_id
+    // Passo 1: busca por título — retorna lista de resultados da OMDB
     const objBotaoBusca = document.getElementById('buscaOmdb') as HTMLButtonElement;
     objBotaoBusca.addEventListener('click', async (evento) => {
         evento.preventDefault();
         const query = (document.getElementById('queryOmdb') as HTMLInputElement).value;
         if (!query) return;
         try {
-            const response = await authFetch(backendAddress + 'midias/busca-omdb/?q=' + encodeURIComponent(query));
+            const response = await authFetch(
+                backendAddress + 'midias/busca-omdb/?busca_midia=' + encodeURIComponent(query)
+            );
             const resultado = await response.json();
-            if (response.ok && resultado) {
-                (document.getElementById('imdb_id') as HTMLInputElement).value = resultado['imdbID'] ?? '';
-                (document.getElementById('resultadoBusca') as HTMLDivElement).textContent =
-                    'Mídia encontrada: ' + (resultado['Title'] ?? '') + ' (' + (resultado['Year'] ?? '') + ')';
+            const listaEl = document.getElementById('listaResultados') as HTMLUListElement;
+            listaEl.innerHTML = '';
+            (document.getElementById('resultadoBusca') as HTMLDivElement).textContent = '';
+            if (response.ok && resultado.midias_encontradas?.length > 0) {
+                resultado.midias_encontradas.forEach((item: any) => {
+                    const li = document.createElement('li');
+                    li.textContent = item.Title + ' (' + item.Year + ')';
+                    li.style.cursor = 'pointer';
+                    // Passo 2: ao clicar no resultado, importa a mídia para o banco
+                    li.addEventListener('click', async () => {
+                        try {
+                            const selResp = await authFetch(
+                                backendAddress + 'midias/busca-omdb/?midia_selecionada=' + encodeURIComponent(item.imdbID)
+                            );
+                            const selData = await selResp.json();
+                            if (selResp.ok && selData.midia_selecionada) {
+                                const midia = selData.midia_selecionada;
+                                // Guarda o ID interno da mídia no campo hidden
+                                (document.getElementById('midia_id') as HTMLInputElement).value = String(midia.id);
+                                (document.getElementById('resultadoBusca') as HTMLDivElement).textContent =
+                                    'Mídia selecionada: ' + midia.titulo + ' (' + midia.tipo + ', ' + midia.ano_lancamento + ')';
+                                listaEl.innerHTML = '';
+                            } else {
+                                (document.getElementById('resultadoBusca') as HTMLDivElement).textContent =
+                                    'Erro ao importar a mídia.';
+                            }
+                        } catch (error) {
+                            console.error('Erro ao selecionar mídia:', error);
+                        }
+                    });
+                    listaEl.appendChild(li);
+                });
             } else {
-                (document.getElementById('resultadoBusca') as HTMLDivElement).textContent = 'Mídia não encontrada.';
+                (document.getElementById('resultadoBusca') as HTMLDivElement).textContent = 'Nenhuma mídia encontrada.';
             }
         } catch (error) {
             console.error('Erro ao buscar no OMDB:', error);
@@ -24,27 +54,33 @@ onload = () => {
     const objBotao = document.getElementById('insere') as HTMLButtonElement;
     objBotao.addEventListener('click', async (evento) => {
         evento.preventDefault();
-        let data: Record<string, string> = {};
-        const elements = (document.getElementById('meuFormulario') as HTMLFormElement).elements;
-        for (let i = 0; i < elements.length; i++) {
-            const element = elements[i] as HTMLInputElement;
-            if (element.name) {
-                data[element.name] = element.value;
-            }
+        const midia_id = (document.getElementById('midia_id') as HTMLInputElement).value;
+        const nota = (document.getElementById('nota') as HTMLSelectElement).value;
+        const comentario = (document.getElementById('comentario') as HTMLTextAreaElement).value;
+        const assistido_em = (document.getElementById('assistido_em') as HTMLInputElement).value;
+        if (!midia_id) {
+            (document.getElementById('mensagem') as HTMLDivElement).textContent =
+                'Por favor, busque e selecione uma mídia antes de inserir.';
+            return;
         }
+        const data = {
+            midia: parseInt(midia_id),
+            nota: parseInt(nota),
+            comentario: comentario,
+            assistido_em: assistido_em || null
+        };
         try {
             const response = await authFetch(backendAddress + "midias/avaliacao/", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
             if (response.ok) {
                 (document.getElementById('mensagem') as HTMLDivElement).textContent = "Avaliação inserida com sucesso!";
             } else {
                 const err = await response.json();
-                (document.getElementById('mensagem') as HTMLDivElement).textContent = "Erro ao inserir a avaliação: " + JSON.stringify(err);
+                (document.getElementById('mensagem') as HTMLDivElement).textContent =
+                    "Erro ao inserir a avaliação: " + JSON.stringify(err);
             }
         } catch (error) {
             console.error("Erro ao enviar os dados da avaliação:", error);
