@@ -2,6 +2,7 @@
  * perfil.ts — Página de perfil (perfil.html).
  * Carrega dados do usuário, lista avaliações, permite editar perfil e deletar conta.
  */
+declare let usuarioPerfil: string | null;
 /** Carrega e exibe os dados do perfil do usuário. */
 declare function carregarPerfil(): Promise<void>;
 /** Carrega e renderiza as avaliações do usuário no grid. */

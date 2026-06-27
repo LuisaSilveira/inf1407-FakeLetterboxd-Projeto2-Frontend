@@ -3,6 +3,7 @@
  * perfil.ts — Página de perfil (perfil.html).
  * Carrega dados do usuário, lista avaliações, permite editar perfil e deletar conta.
  */
+let usuarioPerfil = null;
 onload = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -26,12 +27,11 @@ async function carregarPerfil() {
             return;
         }
         const dados = await response.json();
-        document.getElementById("perfil-username").textContent = (_a = dados.username) !== null && _a !== void 0 ? _a : "";
-        document.getElementById("perfil-email").textContent = (_b = dados.email) !== null && _b !== void 0 ? _b : "";
+        usuarioPerfil = (_a = dados.username) !== null && _a !== void 0 ? _a : null;
+        document.getElementById("perfil-username").textContent = (_b = dados.username) !== null && _b !== void 0 ? _b : "";
+        document.getElementById("perfil-email").textContent = (_c = dados.email) !== null && _c !== void 0 ? _c : "";
         const nome = [dados.first_name, dados.last_name].filter(Boolean).join(" ");
         document.getElementById("perfil-nome").textContent = nome;
-        // Preenche form de edição
-        document.getElementById("username").value = (_c = dados.username) !== null && _c !== void 0 ? _c : "";
         document.getElementById("email").value = (_d = dados.email) !== null && _d !== void 0 ? _d : "";
         document.getElementById("first_name").value = (_e = dados.first_name) !== null && _e !== void 0 ? _e : "";
         document.getElementById("last_name").value = (_f = dados.last_name) !== null && _f !== void 0 ? _f : "";
@@ -48,14 +48,17 @@ async function carregarAvaliacoesPerfil() {
         if (!response.ok)
             return;
         const avaliacoes = await response.json();
-        document.getElementById("perfil-total-avaliacoes").textContent = String(avaliacoes.length);
+        const avaliacoesDoUsuario = usuarioPerfil
+            ? avaliacoes.filter((av) => obterAutorAvaliacaoPerfil(av) === usuarioPerfil)
+            : avaliacoes;
+        document.getElementById("perfil-total-avaliacoes").textContent = String(avaliacoesDoUsuario.length);
         grid.innerHTML = "";
-        if (avaliacoes.length === 0) {
+        if (avaliacoesDoUsuario.length === 0) {
             grid.innerHTML = `<div class="empty-state"><p>Você ainda não tem avaliações cadastradas.</p></div>`;
             return;
         }
         let idParaApagar = null;
-        avaliacoes.forEach((av) => {
+        avaliacoesDoUsuario.forEach((av) => {
             const card = criaCardPerfilFnFn(av, (id) => {
                 idParaApagar = id;
                 document.getElementById("modal-apagar").classList.add("ativo");
@@ -146,7 +149,6 @@ function configurarEdicao() {
 async function salvarPerfilFn() {
     const msg = document.getElementById("msg-perfil");
     const body = {
-        username: document.getElementById("username").value,
         email: document.getElementById("email").value,
         first_name: document.getElementById("first_name").value,
         last_name: document.getElementById("last_name").value,

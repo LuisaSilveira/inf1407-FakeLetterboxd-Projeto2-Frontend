@@ -3,6 +3,8 @@
  * Carrega dados do usuário, lista avaliações, permite editar perfil e deletar conta.
  */
 
+let usuarioPerfil: string | null = null;
+
 onload = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) { location.href = "accounts/login.html"; return; }
@@ -21,14 +23,13 @@ async function carregarPerfil(): Promise<void> {
         const response = await authFetch(backendAddress + "accounts/perfil/");
         if (response.status === 401) { location.href = "accounts/login.html"; return; }
         const dados = await response.json();
+        usuarioPerfil = dados.username ?? null;
 
         (document.getElementById("perfil-username") as HTMLElement).textContent = dados.username ?? "";
         (document.getElementById("perfil-email") as HTMLElement).textContent = dados.email ?? "";
         const nome = [dados.first_name, dados.last_name].filter(Boolean).join(" ");
         (document.getElementById("perfil-nome") as HTMLElement).textContent = nome;
 
-        // Preenche form de edição
-        (document.getElementById("username") as HTMLInputElement).value = dados.username ?? "";
         (document.getElementById("email") as HTMLInputElement).value = dados.email ?? "";
         (document.getElementById("first_name") as HTMLInputElement).value = dados.first_name ?? "";
         (document.getElementById("last_name") as HTMLInputElement).value = dados.last_name ?? "";
@@ -46,16 +47,20 @@ async function carregarAvaliacoesPerfil(): Promise<void> {
         if (!response.ok) return;
 
         const avaliacoes: any[] = await response.json();
-        (document.getElementById("perfil-total-avaliacoes") as HTMLElement).textContent = String(avaliacoes.length);
+        const avaliacoesDoUsuario = usuarioPerfil
+            ? avaliacoes.filter((av: any) => obterAutorAvaliacaoPerfil(av) === usuarioPerfil)
+            : avaliacoes;
+
+        (document.getElementById("perfil-total-avaliacoes") as HTMLElement).textContent = String(avaliacoesDoUsuario.length);
         grid.innerHTML = "";
 
-        if (avaliacoes.length === 0) {
+        if (avaliacoesDoUsuario.length === 0) {
             grid.innerHTML = `<div class="empty-state"><p>Você ainda não tem avaliações cadastradas.</p></div>`;
             return;
         }
 
         let idParaApagar: number | null = null;
-        avaliacoes.forEach((av: any) => {
+        avaliacoesDoUsuario.forEach((av: any) => {
             const card = criaCardPerfilFnFn(av, (id: number) => {
                 idParaApagar = id;
                 (document.getElementById("modal-apagar") as HTMLDivElement).classList.add("ativo");
@@ -154,7 +159,6 @@ function configurarEdicao(): void {
 async function salvarPerfilFn(): Promise<void> {
     const msg = document.getElementById("msg-perfil") as HTMLDivElement;
     const body = {
-        username:   (document.getElementById("username")   as HTMLInputElement).value,
         email:      (document.getElementById("email")      as HTMLInputElement).value,
         first_name: (document.getElementById("first_name") as HTMLInputElement).value,
         last_name:  (document.getElementById("last_name")  as HTMLInputElement).value,
