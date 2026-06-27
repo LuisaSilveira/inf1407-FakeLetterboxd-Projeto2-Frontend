@@ -84,6 +84,7 @@ async function carregarAvaliacoesPerfil(): Promise<void> {
 function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElement {
     const article = document.createElement("article");
     article.className = "avaliacao-card";
+    const autor = obterAutorAvaliacaoPerfil(av) ?? "";
 
     const posterHtml = av["poster_url"]
         ? `<div class="poster-container"><img src="${av["poster_url"]}" alt="${av["titulo_midia"] ?? ""}" class="midia-poster"></div>` : "";
@@ -95,7 +96,7 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
         ${posterHtml}
         <div class="card-content">
             <div class="card-header">
-                <span class="pessoa-nome">${av["usuario"] ?? ""}</span>
+                <span class="pessoa-nome">${autor}</span>
                 <span class="nota">${av["nota"] ?? ""}</span>
             </div>
             <h2 class="midia-titulo">${av["titulo_midia"] ?? "—"}</h2>
@@ -112,6 +113,16 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
     });
 
     return article;
+}
+
+function obterAutorAvaliacaoPerfil(av: any): string | null {
+    const candidato = av["usuario"] ?? av["username"] ?? av["user"] ?? av["autor"] ?? av["owner"];
+    if (typeof candidato === "string" && candidato.trim()) return candidato;
+
+    const candidatoObjeto = av["usuario"]?.username ?? av["user"]?.username ?? av["autor"]?.username ?? av["owner"]?.username;
+    if (typeof candidatoObjeto === "string" && candidatoObjeto.trim()) return candidatoObjeto;
+
+    return null;
 }
 
 /** Configura os botões de logout (modal). */

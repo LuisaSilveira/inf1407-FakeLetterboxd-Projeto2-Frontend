@@ -3,6 +3,8 @@
  * Renderiza cards no estilo do projeto 1, com modal de confirmação de exclusão.
  */
 declare let idParaApagar: number | null;
+declare let usuarioLogado: string | null;
+declare function carregarUsuarioLogado(): Promise<void>;
 /**
  * Configura o modal de confirmação de exclusão.
  */
@@ -22,6 +24,7 @@ declare function exibeListaDeAvaliacoes(): Promise<void>;
  * :return: elemento article do card
  */
 declare function criaCardLista(av: any): HTMLElement;
+declare function obterAutorAvaliacaoLista(av: any): string | null;
 /**
  * Formata data ISO (YYYY-MM-DD) para DD/MM/YYYY.
  * :param data: string de data no formato ISO

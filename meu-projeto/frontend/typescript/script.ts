@@ -4,13 +4,27 @@
  */
 
 let idParaApagar: number | null = null;
+let usuarioLogado: string | null = null;
 
 onload = () => {
     const token = localStorage.getItem("access_token");
     if (!token) { location.href = "accounts/login.html"; return; }
-    exibeListaDeAvaliacoes();
+    carregarUsuarioLogado()
+        .then(() => exibeListaDeAvaliacoes())
+        .catch((error) => {
+            console.error("Erro ao identificar usuário logado:", error);
+            return exibeListaDeAvaliacoes();
+        });
     configurarModal();
 };
+
+async function carregarUsuarioLogado(): Promise<void> {
+    const response = await authFetch(backendAddress + "accounts/whoami/");
+    if (!response.ok) return;
+
+    const dados = await response.json();
+    usuarioLogado = dados.username ?? dados.usuario ?? null;
+}
 
 /**
  * Configura o modal de confirmação de exclusão.
@@ -96,18 +110,21 @@ function criaCardLista(av: any): HTMLElement {
         ? `<div class="assistido-em">Assistido em ${formatarDataLista(av["assistido_em"])}</div>`
         : "";
 
-    // Ações (apenas para o próprio usuário — o backend já filtra, mas mostramos sempre pois é a lista do próprio user)
-    const acoesHtml = `
+    const autor = obterAutorAvaliacaoLista(av);
+    const podeEditar = !!usuarioLogado && autor === usuarioLogado;
+    const acoesHtml = podeEditar
+        ? `
         <div class="card-actions">
             <a href="update.html?id=${av["id"]}" class="btn btn-atualizar">Editar</a>
             <button class="btn btn-apagar" data-id="${av["id"]}">Excluir</button>
-        </div>`;
+        </div>`
+        : "";
 
     article.innerHTML = `
         ${posterHtml}
         <div class="card-content">
             <div class="card-header">
-                <span class="pessoa-nome">${av["usuario"] ?? av["titulo_midia"] ?? ""}</span>
+                <span class="pessoa-nome">${autor ?? ""}</span>
                 <span class="nota">${av["nota"] ?? ""}</span>
             </div>
             <h2 class="midia-titulo">${av["titulo_midia"] ?? "—"}</h2>
@@ -116,15 +133,26 @@ function criaCardLista(av: any): HTMLElement {
             ${acoesHtml}
         </div>`;
 
-    // Botão de excluir abre o modal
-    const btnApagar = article.querySelector(".btn-apagar") as HTMLButtonElement;
-    btnApagar.addEventListener("click", (e: Event) => {
-        e.stopPropagation();
-        idParaApagar = Number(btnApagar.dataset["id"]);
-        (document.getElementById("modal-apagar") as HTMLDivElement).classList.add("ativo");
-    });
+    const btnApagar = article.querySelector(".btn-apagar") as HTMLButtonElement | null;
+    if (btnApagar) {
+        btnApagar.addEventListener("click", (e: Event) => {
+            e.stopPropagation();
+            idParaApagar = Number(btnApagar.dataset["id"]);
+            (document.getElementById("modal-apagar") as HTMLDivElement).classList.add("ativo");
+        });
+    }
 
     return article;
+}
+
+function obterAutorAvaliacaoLista(av: any): string | null {
+    const candidato = av["usuario"] ?? av["username"] ?? av["user"] ?? av["autor"] ?? av["owner"];
+    if (typeof candidato === "string" && candidato.trim()) return candidato;
+
+    const candidatoObjeto = av["usuario"]?.username ?? av["user"]?.username ?? av["autor"]?.username ?? av["owner"]?.username;
+    if (typeof candidatoObjeto === "string" && candidatoObjeto.trim()) return candidatoObjeto;
+
+    return null;
 }
 
 /**

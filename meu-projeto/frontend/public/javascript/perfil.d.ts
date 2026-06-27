@@ -12,6 +12,7 @@ declare function carregarAvaliacoesPerfil(): Promise<void>;
  * :param onApagar: callback chamado ao clicar em Excluir
  */
 declare function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElement;
+declare function obterAutorAvaliacaoPerfil(av: any): string | null;
 /** Configura os botões de logout (modal). */
 declare function configurarLogout(): void;
 /** Configura botão de editar perfil e cancelar edição. */
