@@ -1,9 +1,4 @@
 "use strict";
-/**
- * passwordChange.ts — Troca de senha do usuário autenticado.
- * Conforme slides 90-92 da aula de Controle de Acesso.
- * Endpoint: PUT accounts/change-password/
- */
 addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formulario");
     form.addEventListener("submit", async (event) => {

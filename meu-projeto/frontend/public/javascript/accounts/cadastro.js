@@ -1,9 +1,4 @@
 "use strict";
-/**
- * cadastro.ts — Cadastro de novo usuário.
- * Endpoint: POST accounts/cadastro/
- * Envia dados do novo usuário e redireciona para login após sucesso.
- */
 addEventListener("DOMContentLoaded", () => {
     document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
         e.preventDefault();
