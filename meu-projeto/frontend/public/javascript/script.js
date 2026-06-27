@@ -1,7 +1,8 @@
 "use strict";
 /**
  * script.ts — Lista de avaliações (index.html).
- * Renderiza cards no estilo do projeto 1, com modal de confirmação de exclusão.
+ * Renderiza cards no estilo do projeto 1, com modal de confirmação de exclusão
+ * e barra de filtros (busca_titulo, busca_pessoa, tipo_midia, genero_midia, ordem_nota).
  */
 let idParaApagar = null;
 let usuarioLogado = null;
@@ -18,6 +19,7 @@ onload = () => {
         return exibeListaDeAvaliacoes();
     });
     configurarModal();
+    configurarFiltros();
 };
 async function carregarUsuarioLogado() {
     var _a, _b;
@@ -45,26 +47,134 @@ function configurarModal() {
     });
 }
 /**
+ * Configura os eventos dos botões de filtrar e limpar.
+ */
+function configurarFiltros() {
+    const btnFiltrar = document.getElementById("btn-filtrar");
+    const btnLimpar = document.getElementById("btn-limpar");
+    btnFiltrar === null || btnFiltrar === void 0 ? void 0 : btnFiltrar.addEventListener("click", () => {
+        exibeListaDeAvaliacoes(lerFiltros());
+    });
+    btnLimpar === null || btnLimpar === void 0 ? void 0 : btnLimpar.addEventListener("click", () => {
+        limparCamposFiltro();
+        exibeListaDeAvaliacoes();
+    });
+    // Permite filtrar ao pressionar Enter em qualquer input de texto do painel
+    const inputs = document.querySelectorAll("#filtros-panel input[type='text']");
+    inputs.forEach(input => {
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                exibeListaDeAvaliacoes(lerFiltros());
+            }
+        });
+    });
+}
+/**
+ * Lê os valores atuais dos controles de filtro e retorna um objeto de parâmetros.
+ * :return: objeto com chave=parâmetro, valor=string
+ */
+function lerFiltros() {
+    var _a, _b, _c, _d, _e;
+    const params = {};
+    const buscaTitulo = (_a = document.getElementById("filtro-titulo")) === null || _a === void 0 ? void 0 : _a.value.trim();
+    if (buscaTitulo)
+        params["busca_titulo"] = buscaTitulo;
+    const buscaPessoa = (_b = document.getElementById("filtro-pessoa")) === null || _b === void 0 ? void 0 : _b.value.trim();
+    if (buscaPessoa)
+        params["busca_pessoa"] = buscaPessoa;
+    const tipoMidia = (_c = document.getElementById("filtro-tipo")) === null || _c === void 0 ? void 0 : _c.value;
+    if (tipoMidia)
+        params["tipo_midia"] = tipoMidia;
+    const generoMidia = (_d = document.getElementById("filtro-genero")) === null || _d === void 0 ? void 0 : _d.value;
+    if (generoMidia)
+        params["genero_midia"] = generoMidia;
+    const ordemNota = (_e = document.getElementById("filtro-ordem")) === null || _e === void 0 ? void 0 : _e.value;
+    if (ordemNota)
+        params["ordem_nota"] = ordemNota;
+    return params;
+}
+/**
+ * Limpa todos os campos do painel de filtros.
+ */
+function limparCamposFiltro() {
+    const titulo = document.getElementById("filtro-titulo");
+    const pessoa = document.getElementById("filtro-pessoa");
+    const tipo = document.getElementById("filtro-tipo");
+    const genero = document.getElementById("filtro-genero");
+    const ordem = document.getElementById("filtro-ordem");
+    if (titulo)
+        titulo.value = "";
+    if (pessoa)
+        pessoa.value = "";
+    if (tipo)
+        tipo.value = "";
+    if (genero)
+        genero.value = "";
+    if (ordem)
+        ordem.value = "";
+    atualizarBuscaInfo({});
+}
+/**
+ * Atualiza o bloco de informações sobre os filtros ativos.
+ * :param params: objeto de parâmetros ativos
+ */
+function atualizarBuscaInfo(params) {
+    var _a, _b, _c;
+    const infoEl = document.getElementById("busca-info");
+    if (!infoEl)
+        return;
+    const nomesTipo = { filme: "Filmes", serie: "Séries" };
+    const nomesGenero = {
+        acao: "Ação", comedia: "Comédia", terror: "Terror", romance: "Romance",
+        drama: "Drama", ficcao: "Ficção Científica", aventura: "Aventura",
+        suspense: "Suspense", animacao: "Animação", documentario: "Documentário",
+    };
+    const nomesOrdem = { maior: "Maior Nota", menor: "Menor Nota" };
+    const partes = [];
+    if (params["busca_titulo"])
+        partes.push(`Título: <strong>"${params["busca_titulo"]}"</strong>`);
+    if (params["busca_pessoa"])
+        partes.push(`Usuário: <strong>"${params["busca_pessoa"]}"</strong>`);
+    if (params["tipo_midia"])
+        partes.push(`Tipo: <strong>${(_a = nomesTipo[params["tipo_midia"]]) !== null && _a !== void 0 ? _a : params["tipo_midia"]}</strong>`);
+    if (params["genero_midia"])
+        partes.push(`Gênero: <strong>${(_b = nomesGenero[params["genero_midia"]]) !== null && _b !== void 0 ? _b : params["genero_midia"]}</strong>`);
+    if (params["ordem_nota"])
+        partes.push(`Ordem: <strong>${(_c = nomesOrdem[params["ordem_nota"]]) !== null && _c !== void 0 ? _c : params["ordem_nota"]}</strong>`);
+    if (partes.length > 0) {
+        infoEl.innerHTML = partes.join(" &bull; ");
+        infoEl.classList.remove("oculto");
+    }
+    else {
+        infoEl.innerHTML = "";
+        infoEl.classList.add("oculto");
+    }
+}
+/**
  * Remove uma avaliação pelo ID.
  * :param id: ID da avaliação a ser removida
  */
 async function apagarAvaliacao(id) {
     try {
         await authFetch(backendAddress + "midias/avaliacao/" + id + "/", { method: "DELETE" });
-        await exibeListaDeAvaliacoes();
+        await exibeListaDeAvaliacoes(lerFiltros());
     }
     catch (error) {
         console.error("Erro ao apagar avaliação:", error);
     }
 }
 /**
- * Busca e renderiza os cards de avaliação no grid.
+ * Busca e renderiza os cards de avaliação no grid, aplicando filtros opcionais.
+ * :param params: objeto de parâmetros de filtro (opcional)
  */
-async function exibeListaDeAvaliacoes() {
+async function exibeListaDeAvaliacoes(params = {}) {
     const grid = document.getElementById("avaliacoes-grid");
     grid.innerHTML = `<div class="empty-state" id="carregando"><p>Carregando avaliações…</p></div>`;
+    atualizarBuscaInfo(params);
+    const queryString = new URLSearchParams(params).toString();
+    const url = backendAddress + "midias/avaliacao/" + (queryString ? "?" + queryString : "");
     try {
-        const response = await authFetch(backendAddress + "midias/avaliacao/", {
+        const response = await authFetch(url, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
@@ -79,7 +189,10 @@ async function exibeListaDeAvaliacoes() {
         const avaliacoes = await response.json();
         grid.innerHTML = "";
         if (avaliacoes.length === 0) {
-            grid.innerHTML = `<div class="empty-state"><p>Ainda não há avaliações cadastradas.</p></div>`;
+            const temFiltros = Object.keys(params).length > 0;
+            grid.innerHTML = temFiltros
+                ? `<div class="empty-state"><p>Nenhuma avaliação encontrada com os filtros aplicados.</p></div>`
+                : `<div class="empty-state"><p>Ainda não há avaliações cadastradas.</p></div>`;
             return;
         }
         avaliacoes.forEach((av) => {
