@@ -1,0 +1,161 @@
+/* forms.css — páginas de conta
+   Estrutura: iframe do professor + design do projeto 1 */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #14181c;
+    color: #9ab;
+    font-family: 'Graphik', 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* iframe sem borda nem scroll */
+#cabecalho { display: block; border: none; flex-shrink: 0; }
+
+/* Centraliza o card na página */
+.form-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* Card do formulário — igual ao projeto 1 */
+.form-card {
+    background: #1f2832;
+    border: 1px solid #456;
+    border-radius: 8px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+}
+
+.form-card h1 {
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Cada campo: label em cima, input embaixo */
+.campo {
+    margin-bottom: 1.25rem;
+}
+
+.campo label {
+    display: block;
+    color: #9ab;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="password"] {
+    width: 100%;
+    background: #14181c;
+    border: 1px solid #456;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 0.6rem 0.85rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    font-family: inherit;
+}
+
+.campo input:focus { border-color: #00e054; }
+
+/* Toggle senha */
+.password-container { position: relative; }
+.password-container input { padding-right: 2.5rem; }
+
+.toggle-password {
+    position: absolute;
+    right: 0.65rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.5;
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+}
+.toggle-password:hover { opacity: 1; }
+
+/* Helptext */
+.helptext {
+    display: block;
+    color: #678;
+    font-size: 0.78rem;
+    margin-top: 0.35rem;
+    line-height: 1.5;
+}
+
+/* Instrução acima do form (passwordResetDone) */
+.instrucao {
+    color: #678;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+/* Botão principal */
+.btn-submit {
+    width: 100%;
+    background: #00e054;
+    color: #14181c;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.75rem;
+    transition: background 0.2s ease;
+    font-family: inherit;
+}
+.btn-submit:hover { background: #00c048; }
+
+/* Mensagem de feedback */
+.msg {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border-left: 4px solid transparent;
+    min-height: 0;
+}
+.msg:empty { display: none; }
+.msg.success { background: rgba(0,224,84,0.1);  color: #00e054; border-color: #00e054; }
+.msg.error   { background: rgba(239,78,78,0.1); color: #ef4e4e; border-color: #ef4e4e; }
+
+/* Links abaixo do card */
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #678;
+}
+.form-footer p { margin-bottom: 0.4rem; }
+.form-footer a { color: #00e054; text-decoration: none; }
+.form-footer a:hover { text-decoration: underline; }
+
+/* Classes de visibilidade (slides do professor) */
+.invisivel { display: none !important; }
+.visivel   { display: block !important; }
+.oculto    { display: none !important; }
+
+@media (max-width: 480px) {
+    .form-card { padding: 1.75rem 1.25rem; }
+    .form-wrapper { padding: 1rem; }
+}

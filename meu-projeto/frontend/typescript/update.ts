@@ -1,67 +1,84 @@
 onload = async () => {
-    // Parte 1: carregar dados da avaliação a ser editada e preencher o formulário
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-    const idPlace = document.getElementById('idAvaliacao') as HTMLSpanElement;
-    if (id) {
-        idPlace.textContent = id;
-        try {
-            const response = await authFetch(backendAddress + 'midias/avaliacao/' + id + '/');
-            if (response.ok) {
-                const avaliacao = await response.json();
-                // Preenche campos da avaliação
-                const camposAvaliacao = ['nota', 'comentario', 'assistido_em'];
-                camposAvaliacao.forEach(campo => {
-                    const el = document.getElementById(campo) as HTMLInputElement;
-                    if (el) el.value = avaliacao[campo] ?? '';
-                });
-                // Exibe info da mídia (somente leitura)
-                const midia = avaliacao['midia'] ?? {};
-                const infoMidia = document.getElementById('infoMidia') as HTMLParagraphElement;
-                if (infoMidia) {
-                    infoMidia.textContent = (midia['titulo'] ?? '') + ' (' + (midia['tipo'] ?? '') + ', ' + (midia['ano_lancamento'] ?? '') + ')';
-                }
-            } else {
-                console.error('Erro ao buscar dados da avaliação:', response.status);
-            }
-        } catch (error) {
-            console.error('Erro ao buscar dados da avaliação:', error);
-        }
-    } else {
-        idPlace.textContent = 'URL mal formada: ' + window.location;
-        return;
+    const token = localStorage.getItem("access_token");
+    if (!token) { location.href = "accounts/login.html"; return; }
+
+    const id = new URLSearchParams(window.location.search).get("id");
+    if (!id) { location.href = "/"; return; }
+
+    await carregarAvaliacao(id);
+    document.getElementById("atualiza")!.addEventListener("click", () => atualizarAvaliacao(id));
+};
+
+/**
+ * Carrega os dados da avaliação e preenche a tela.
+ * :param id: ID da avaliação
+ */
+async function carregarAvaliacao(id: string): Promise<void> {
+    try {
+        const response = await authFetch(backendAddress + "midias/avaliacao/" + id + "/");
+        if (!response.ok) { location.href = "/"; return; }
+
+        const av = await response.json();
+        const midia = av["midia"] ?? {};
+
+        // Preenche info da mídia
+        const poster = document.getElementById("poster-midia") as HTMLImageElement;
+        if (midia["poster_url"]) { poster.src = midia["poster_url"]; } else { poster.style.display = "none"; }
+        (document.getElementById("titulo-midia") as HTMLElement).textContent = midia["titulo"] ?? "—";
+        (document.getElementById("detalhes-midia") as HTMLElement).textContent =
+            `${midia["tipo"] ? midia["tipo"].charAt(0).toUpperCase() + midia["tipo"].slice(1) : ""} • ${midia["ano_lancamento"] ?? ""}${midia["diretor"] ? " • " + midia["diretor"] : ""}`;
+        (document.getElementById("sinopse-midia") as HTMLElement).textContent = midia["sinopse"] ?? "";
+
+        // Preenche form
+        (document.getElementById("nota") as HTMLSelectElement).value = String(av["nota"] ?? 3);
+        (document.getElementById("comentario") as HTMLTextAreaElement).value = av["comentario"] ?? "";
+        (document.getElementById("assistido_em") as HTMLInputElement).value = av["assistido_em"] ?? "";
+
+    } catch (error) {
+        console.error("Erro ao carregar avaliação:", error);
     }
-    // Parte 2: configurar o evento de clique do botão "Atualizar"
-    const objBotao = document.getElementById('atualiza') as HTMLButtonElement;
-    objBotao.addEventListener('click', atualizaAvaliacao);
 }
 
-async function atualizaAvaliacao(evento: MouseEvent) {
-    evento.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-    const form = document.getElementById('meuFormulario') as HTMLFormElement;
-    const elements = form.elements;
-    const dados = {} as Record<string, string>;
-    // Coleta os dados do formulário
-    for (let i = 0; i < elements.length; i++) {
-        const element = elements[i] as HTMLInputElement;
-        if (element.name) { dados[element.name] = element.value; }
-    }
+/**
+ * Envia os dados atualizados ao backend via PUT.
+ * :param id: ID da avaliação
+ */
+async function atualizarAvaliacao(id: string): Promise<void> {
+    const msg = document.getElementById("msg-feedback") as HTMLDivElement;
+
+    const body = {
+        nota: parseInt((document.getElementById("nota") as HTMLSelectElement).value),
+        comentario: (document.getElementById("comentario") as HTMLTextAreaElement).value,
+        assistido_em: (document.getElementById("assistido_em") as HTMLInputElement).value || null
+    };
 
     try {
-        const response = await authFetch(backendAddress + 'midias/avaliacao/' + id + '/', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
+        const response = await authFetch(backendAddress + "midias/avaliacao/" + id + "/", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
         });
+
         if (response.ok) {
-            (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Avaliação atualizada com sucesso!';
+            exibirMsgUpdate(msg, "Avaliação atualizada! Redirecionando…", "success");
+            setTimeout(() => { location.href = "/"; }, 1500);
         } else {
             const err = await response.json();
-            (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Erro ao atualizar: ' + JSON.stringify(err);
+            exibirMsgUpdate(msg, "Erro: " + JSON.stringify(err), "error");
         }
     } catch (error) {
-        console.error('Erro ao enviar dados para o backend:', error);
+        exibirMsgUpdate(msg, "Erro de rede.", "error");
+        console.error(error);
     }
+}
+
+/**
+ * Exibe mensagem de feedback.
+ * :param el: elemento alvo
+ * :param texto: texto a exibir
+ * :param tipo: classe de estilo
+ */
+function exibirMsgUpdate(el: HTMLElement, texto: string, tipo: "success" | "error"): void {
+    el.textContent = texto;
+    el.className = `msg-feedback ${tipo}`;
 }

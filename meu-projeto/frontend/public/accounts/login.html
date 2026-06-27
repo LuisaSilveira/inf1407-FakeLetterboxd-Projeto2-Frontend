@@ -1,38 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login — FakeLetterboxd</title>
     <script src="../javascript/constantes.js"></script>
     <script src="../javascript/accounts/common.js"></script>
     <script src="../javascript/accounts/login.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/forms.css">
 </head>
 <body>
-    <iframe src="../cabecalho.html" frameborder="0" width="100%" height="80" id="cabecalho"></iframe>
-    <main>
-        <h1>Login</h1>
-        <form id="loginForm">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Username:</td><td><input type="text" name="username" id="username"></td>
-                    </tr>
-                    <tr>
-                        <td>Password:</td><td><input type="password" name="password" id="password"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center"><button id="btnLogin">Login</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-        <div id="msg"></div>
-        <p>
-            <a href="passwordReset.html">Esqueci minha senha.</a>
-        </p>
-    </main>
+    <iframe src="../cabecalho.html" frameborder="0" width="100%" height="60" id="cabecalho" scrolling="no"></iframe>
+
+    <div class="form-wrapper">
+        <div class="form-card">
+            <h1>Entrar</h1>
+            <form id="loginForm">
+                <div class="campo">
+                    <label for="username">Usuário</label>
+                    <input type="text" id="username" name="username" autocomplete="username" autofocus required>
+                </div>
+                <div class="campo">
+                    <label for="password">Senha</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
+                        <img src="../img/eye-off.svg" alt="Mostrar senha" class="toggle-password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+            <div id="msg" class="msg"></div>
+            <div class="form-footer">
+                <p><a href="passwordReset.html">Esqueci minha senha</a></p>
+                <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

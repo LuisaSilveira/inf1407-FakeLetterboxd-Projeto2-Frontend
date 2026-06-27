@@ -1,0 +1,319 @@
+/* listaAvaliacao.css — fiel ao design do projeto 1 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #14181c;
+    color: #9ab;
+    font-family: 'Graphik', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+}
+
+h1 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding: 2rem 2rem 0;
+    text-align: center;
+}
+
+/* Barra de ações (Inserir / filtros) */
+.acoes-bar {
+    max-width: 1200px;
+    margin: 1.5rem auto 0;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Container para os cards */
+.avaliacoes-grid {
+    max-width: 1200px;
+    margin: 1.5rem auto;
+    padding: 0 2rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Card de avaliação */
+.avaliacao-card {
+    background: #1f2832;
+    border-radius: 8px;
+    border: 1px solid #456;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    cursor: pointer;
+}
+
+.avaliacao-card:hover {
+    background: #2c3440;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Poster */
+.poster-container {
+    flex-shrink: 0;
+    width: 100px;
+    height: 150px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #14181c;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.midia-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Conteúdo do card */
+.card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #456;
+}
+
+.pessoa-nome {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.pessoa-nome:hover {
+    color: #00e054;
+    text-decoration: underline;
+}
+
+.nota {
+    background: #00e054;
+    color: #14181c;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.midia-titulo {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.assistido-em {
+    color: #678;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.comentario {
+    color: #9ab;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    word-break: break-word;
+    max-height: 90px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    padding-right: 8px;
+}
+
+.comentario::-webkit-scrollbar { width: 5px; }
+.comentario::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 3px; }
+.comentario::-webkit-scrollbar-thumb { background: #456; border-radius: 3px; }
+
+/* Ações do card */
+.card-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid #456;
+}
+
+.btn {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    background: transparent;
+}
+
+.btn-atualizar {
+    color: #00e054;
+    border-color: #00e054;
+}
+
+.btn-atualizar:hover {
+    background: #00e054;
+    color: #14181c;
+}
+
+.btn-apagar {
+    color: #ff8000;
+    border-color: #ff8000;
+}
+
+.btn-apagar:hover {
+    background: #ff8000;
+    color: #fff;
+}
+
+/* Mensagens */
+.mensagens {
+    max-width: 1200px;
+    margin: 1rem auto 0;
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    border-left: 4px solid;
+}
+
+.mensagens.success {
+    background: rgba(0, 224, 84, 0.1);
+    color: #00e054;
+    border-color: #00e054;
+}
+
+.mensagens.error {
+    background: rgba(239, 78, 78, 0.1);
+    color: #ef4e4e;
+    border-color: #ef4e4e;
+}
+
+/* Estado vazio */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #678;
+    grid-column: 1 / -1;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-voltar {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: #00e054;
+    color: #14181c;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-voltar:hover {
+    background: #00b042;
+    transform: translateY(-1px);
+}
+
+/* Modal de confirmação */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.ativo { display: flex; }
+
+.modal-box {
+    background: #1f2832;
+    border: 1px solid #456;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    min-width: 280px;
+}
+
+.modal-box p {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-confirmar {
+    color: #ff8000;
+    border-color: #ff8000;
+    min-width: 100px;
+}
+
+.btn-confirmar:hover {
+    background: #ff8000;
+    color: #fff;
+}
+
+.btn-cancelar {
+    color: #00e054;
+    border-color: #00e054;
+    min-width: 100px;
+}
+
+.btn-cancelar:hover {
+    background: #00e054;
+    color: #14181c;
+}
+
+/* Visibilidade */
+.oculto { display: none !important; }
+.visivel { display: block !important; }
+
+@media (max-width: 768px) {
+    .avaliacoes-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem 1rem;
+    }
+    h1 { font-size: 1.5rem; padding: 1.5rem 1rem 0; }
+}
+
+@media (max-width: 480px) {
+    .avaliacao-card { flex-direction: column; padding: 1rem; }
+    .poster-container { width: 100%; height: 200px; margin-bottom: 1rem; }
+}

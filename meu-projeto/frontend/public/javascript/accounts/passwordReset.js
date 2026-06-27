@@ -15,7 +15,7 @@ addEventListener("DOMContentLoaded", (evento) => {
             });
             if (response.ok) {
                 messageDiv.textContent = "Instruções para resetar a senha foram enviadas para o seu e-mail.";
-                messageDiv.style.color = "green";
+                messageDiv.className = "msg-feedback success";
                 setTimeout(() => {
                     location.href = 'passwordResetDone.html';
                 }, 3000);
@@ -23,10 +23,12 @@ addEventListener("DOMContentLoaded", (evento) => {
             else {
                 const errorData = await response.json();
                 messageDiv.textContent = `Erro: ${errorData.message}`;
+                messageDiv.className = "msg-feedback error";
             }
         }
         catch (error) {
             messageDiv.textContent = `Erro de rede: ${error}`;
+            messageDiv.className = "msg-feedback error";
         }
     });
 });

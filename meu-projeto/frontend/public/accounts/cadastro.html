@@ -10,9 +10,7 @@
     <link rel="stylesheet" href="../css/forms.css">
 </head>
 <body>
-    <header class="header">
-        <a href="/" class="logo">FakeLetterboxd</a>
-    </header>
+    <iframe src="../cabecalho.html" frameborder="0" width="100%" height="60" id="cabecalho" scrolling="no"></iframe>
 
     <div class="form-wrapper">
         <div class="form-card">
@@ -40,7 +38,9 @@
                         <input type="password" id="password" name="password" autocomplete="new-password" required>
                         <img src="../img/eye-off.svg" alt="Mostrar senha" class="toggle-password">
                     </div>
-                    <span class="helptext">Mínimo 8 caracteres. Não pode ser inteiramente numérica.</span>
+                    <span class="helptext">
+                        Mínimo 8 caracteres. Não pode ser muito parecida com seus dados pessoais nem inteiramente numérica.
+                    </span>
                 </div>
                 <div class="campo">
                     <label for="password2">Confirmar senha *</label>
@@ -51,7 +51,7 @@
                 </div>
                 <button type="submit" class="btn-submit">Cadastrar</button>
             </form>
-            <div id="msg" class="msg-feedback oculto"></div>
+            <div id="msg" class="msg"></div>
             <div class="form-footer">
                 <p>Já tem conta? <a href="login.html">Entrar</a></p>
             </div>

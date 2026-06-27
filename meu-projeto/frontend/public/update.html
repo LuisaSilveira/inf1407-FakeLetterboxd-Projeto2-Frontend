@@ -3,34 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar Avaliação</title>
+    <title>Editar Avaliação — FakeLetterboxd</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/formsAvaliacao.css">
     <script src="javascript/constantes.js"></script>
     <script src="javascript/accounts/common.js"></script>
     <script src="javascript/update.js"></script>
 </head>
 <body>
-    <iframe src="cabecalho.html" frameborder="0" width="100%" height="50" id="cabecalho"></iframe>
-    <h1>Atualizando Avaliação #<span id='idAvaliacao'></span></h1>
-    <!-- Mídia associada — somente leitura -->
-    <p><strong>Mídia:</strong> <span id="infoMidia"></span></p>
-    <form id="meuFormulario">
-        <table>
-            <tbody>
-                <tr><td align="right">Nota (1 a 5):</td><td>
-                    <select name="nota" id="nota">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td></tr>
-                <tr><td align="right">Comentário:</td><td><textarea name="comentario" id="comentario"></textarea></td></tr>
-                <tr><td align="right">Assistido em:</td><td><input type="date" name="assistido_em" id="assistido_em"></td></tr>
-            </tbody>
-        </table>
-        <button id="atualiza">Atualizar Avaliação</button>
-    </form>
-    <div id="mensagem"></div>
+    <iframe src="cabecalho.html" frameborder="0" width="100%" height="60" id="cabecalho" scrolling="no"></iframe>
+
+    <div class="container">
+        <h1>Editar Avaliação</h1>
+
+        <!-- Mídia atual -->
+        <div class="secao">
+            <h2><span class="check-icon">✓</span> Mídia Selecionada</h2>
+            <div class="resultado-item midia-selecionada">
+                <img class="poster" id="poster-midia" src="" alt="">
+                <div class="info-midia">
+                    <div class="titulo-midia" id="titulo-midia"></div>
+                    <div class="detalhes-midia" id="detalhes-midia"></div>
+                    <div class="sinopse" id="sinopse-midia"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário -->
+        <div class="secao">
+            <h2>Formulário de Avaliação</h2>
+            <form id="meuFormulario" class="form-avaliacao">
+                <div class="linha-dupla">
+                    <div class="campo">
+                        <label for="nota">Nota</label>
+                        <select id="nota" name="nota">
+                            <option value="1">1 — Péssimo</option>
+                            <option value="2">2 — Ruim</option>
+                            <option value="3">3 — Regular</option>
+                            <option value="4">4 — Bom</option>
+                            <option value="5">5 — Excelente</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="assistido_em">Assistido em</label>
+                        <input type="date" id="assistido_em" name="assistido_em">
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="comentario">Comentário</label>
+                    <textarea id="comentario" name="comentario"></textarea>
+                </div>
+
+                <button type="button" class="btn-publicar" id="atualiza">Atualizar Avaliação</button>
+            </form>
+        </div>
+
+        <div id="msg-feedback" class="msg-feedback oculto"></div>
+    </div>
 </body>
 </html>

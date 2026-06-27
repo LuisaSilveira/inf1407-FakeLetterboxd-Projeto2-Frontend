@@ -3,33 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Avaliações — FakeLetterboxd</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/listaAvaliacao.css">
     <script src="javascript/constantes.js"></script>
     <script src="javascript/accounts/common.js"></script>
     <script src="javascript/script.js"></script>
-    <title>FakeLetterboxd</title>
-    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <iframe src="cabecalho.html" frameborder="0" width="100%" height="50" id="cabecalho"></iframe>
-    <h1>Avaliações</h1>
-    <form action="" method="get">
-        <table border="1">
-            <thead>
-                <tr>
-                    <td>Título</td>
-                    <td>Tipo</td>
-                    <td>Nota</td>
-                    <td>Comentário</td>
-                    <td>Assistido em</td>
-                    <td>Data da avaliação</td>
-                    <td>Remove</td>
-                </tr>
-            </thead>
-            <tbody id="idtbody"></tbody>
-        </table>
-        <input type="button" value="Inserir Avaliação" id="insere"/>
-        <input type="button" value="Remove" id="remove"/>
-    </form>
-</body>
+    <iframe src="cabecalho.html" frameborder="0" width="100%" height="60" id="cabecalho" scrolling="no"></iframe>
 
+    <h1>Lista de Avaliações</h1>
+
+    <div class="acoes-bar" id="acoes-logado">
+        <a href="insereReview.html" class="btn btn-atualizar">+ Nova Avaliação</a>
+    </div>
+
+    <div id="msg-feedback" class="mensagens oculto"></div>
+
+    <!-- Grid de avaliações -->
+    <div class="avaliacoes-grid" id="avaliacoes-grid">
+        <div class="empty-state" id="carregando">
+            <p>Carregando avaliações…</p>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação de exclusão -->
+    <div id="modal-apagar" class="modal-overlay">
+        <div class="modal-box">
+            <p>Tem certeza que deseja excluir esta avaliação?</p>
+            <div class="modal-actions">
+                <button class="btn btn-confirmar" id="modal-confirmar">Excluir</button>
+                <button class="btn btn-cancelar" id="modal-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

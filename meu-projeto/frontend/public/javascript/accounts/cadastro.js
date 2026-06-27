@@ -28,7 +28,8 @@ addEventListener("DOMContentLoaded", () => {
                     email,
                     first_name: firstName,
                     last_name: lastName,
-                    password
+                    password,
+                    password2
                 })
             });
             if (response.ok) {

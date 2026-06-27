@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil — FakeLetterboxd</title>
+    <link rel="stylesheet" href="css/perfil.css">
+    <script src="javascript/constantes.js"></script>
+    <script src="javascript/accounts/common.js"></script>
+    <script src="javascript/perfil.js"></script>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">FakeLetterboxd</a>
+        <button class="btn-logout" id="btn-abrir-modal-logout">Sair</button>
+    </header>
+
+    <!-- Modal logout -->
+    <div id="modal-logout" class="modal-overlay">
+        <div class="modal-box">
+            <p>Tem certeza que deseja sair?</p>
+            <div class="modal-actions">
+                <button class="btn btn-confirmar" id="confirmar-logout">Sair</button>
+                <button class="btn btn-cancelar" id="cancelar-logout">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Perfil header -->
+    <section class="perfil-header">
+        <div class="perfil-avatar">
+            <img src="img/placeholder-profile.svg" alt="Foto de perfil" id="foto-perfil">
+        </div>
+        <div class="perfil-info">
+            <p class="perfil-username" id="perfil-username"></p>
+            <div class="perfil-stats">
+                <span><strong id="perfil-total-avaliacoes">0</strong> avaliações</span>
+            </div>
+            <div class="perfil-detalhes">
+                <p id="perfil-email"></p>
+                <p id="perfil-nome"></p>
+            </div>
+            <a href="#editar" class="btn-editar" id="btn-editar-perfil">Editar perfil</a>
+        </div>
+    </section>
+
+    <!-- Formulário de edição (oculto inicialmente) -->
+    <div class="perfil-form-card oculto" id="form-edicao">
+        <div class="perfil-form-inner">
+            <h2>Editar Perfil</h2>
+            <form id="formPerfil">
+                <div class="perfil-campo">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username">
+                </div>
+                <div class="perfil-campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="perfil-campo">
+                    <label for="first_name">Nome</label>
+                    <input type="text" id="first_name" name="first_name">
+                </div>
+                <div class="perfil-campo">
+                    <label for="last_name">Sobrenome</label>
+                    <input type="text" id="last_name" name="last_name">
+                </div>
+                <div class="perfil-acoes">
+                    <button type="button" class="btn-salvar" id="salvar-perfil">Salvar</button>
+                    <button type="button" class="btn-trocar-senha" id="btn-cancelar-edicao">Cancelar</button>
+                    <a href="accounts/passwordChange.html" class="btn-trocar-senha">Trocar senha</a>
+                </div>
+            </form>
+            <div id="msg-perfil" class="msg-perfil oculto"></div>
+        </div>
+    </div>
+
+    <!-- Avaliações do usuário -->
+    <section class="avaliacoes-perfil">
+        <h2 class="avaliacoes-perfil-titulo">Minhas Avaliações</h2>
+        <div class="avaliacoes-grid" id="avaliacoes-grid">
+            <div class="empty-state" id="carregando-avaliacoes">
+                <p>Carregando avaliações…</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zona de perigo -->
+    <div class="zona-perigo">
+        <div class="zona-perigo-card">
+            <h2>⚠ Zona de Perigo</h2>
+            <p>Ao deletar sua conta, todos os dados e avaliações serão permanentemente removidos.</p>
+            <button class="btn-deletar-conta" id="btn-deletar-conta">Deletar minha conta</button>
+        </div>
+    </div>
+
+    <!-- Modal apagar avaliação -->
+    <div id="modal-apagar" class="modal-overlay">
+        <div class="modal-box">
+            <p>Tem certeza que deseja excluir esta avaliação?</p>
+            <div class="modal-actions">
+                <button class="btn btn-confirmar" id="modal-confirmar">Excluir</button>
+                <button class="btn btn-cancelar" id="modal-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
