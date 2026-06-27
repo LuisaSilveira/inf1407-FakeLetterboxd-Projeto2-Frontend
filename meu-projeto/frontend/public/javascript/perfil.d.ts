@@ -6,7 +6,7 @@ declare let usuarioPerfil: string | null;
 /** Carrega e exibe os dados do perfil do usuário. */
 declare function carregarPerfil(): Promise<void>;
 /** Carrega e renderiza as avaliações do usuário no grid. */
-declare function carregarAvaliacoesPerfil(): Promise<void>;
+declare function carregarAvaliacoesPerfil(params?: Record<string, string>): Promise<void>;
 /**
  * Cria um card de avaliação para a página de perfil.
  * :param av: objeto de avaliação
@@ -29,4 +29,12 @@ declare function configurarDeletar(): void;
  * :param data: string no formato YYYY-MM-DD
  */
 declare function formatarDataPerfil(data: string): string;
+/** Configura os botões de filtrar e limpar. */
+declare function configurarFiltrosPerfil(): void;
+/** Lê os valores dos filtros atuais */
+declare function lerFiltrosPerfil(): Record<string, string>;
+/** Limpa os filtros no UI */
+declare function limparCamposFiltroPerfil(): void;
+/** Atualiza a div visual com as tags de filtros ativos */
+declare function atualizarBuscaInfoPerfil(params: Record<string, string>): void;
 //# sourceMappingURL=perfil.d.ts.map

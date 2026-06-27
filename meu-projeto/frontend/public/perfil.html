@@ -74,6 +74,57 @@
     <!-- Avaliações do usuário -->
     <section class="avaliacoes-perfil">
         <h2 class="avaliacoes-perfil-titulo">Minhas Avaliações</h2>
+
+        <!-- Painel de filtros -->
+        <div class="busca-container" id="filtros-panel" aria-label="Filtros de avaliações">
+            <div class="busca-form">
+                <!-- Busca por título -->
+                <input
+                    type="text"
+                    id="filtro-titulo"
+                    name="busca_titulo"
+                    placeholder="Buscar por título..."
+                    class="busca-input"
+                    aria-label="Buscar por título"
+                >
+
+                <!-- Filtro por tipo -->
+                <select id="filtro-tipo" name="tipo_midia" class="filtro-select" aria-label="Filtrar por tipo">
+                    <option value="">Tipo: Todos</option>
+                    <option value="filme">Filmes</option>
+                    <option value="serie">Séries</option>
+                </select>
+
+                <!-- Filtro por gênero -->
+                <select id="filtro-genero" name="genero_midia" class="filtro-select" aria-label="Filtrar por gênero">
+                    <option value="">Gênero: Todos</option>
+                    <option value="acao">Ação</option>
+                    <option value="comedia">Comédia</option>
+                    <option value="terror">Terror</option>
+                    <option value="romance">Romance</option>
+                    <option value="drama">Drama</option>
+                    <option value="ficcao">Ficção Científica</option>
+                    <option value="aventura">Aventura</option>
+                    <option value="suspense">Suspense</option>
+                    <option value="animacao">Animação</option>
+                    <option value="documentario">Documentário</option>
+                </select>
+
+                <!-- Ordenar por nota -->
+                <select id="filtro-ordem" name="ordem_nota" class="filtro-select" aria-label="Ordenar por nota">
+                    <option value="">Ordenar por nota</option>
+                    <option value="maior">Maior Nota</option>
+                    <option value="menor">Menor Nota</option>
+                </select>
+
+                <button type="button" id="btn-filtrar" class="btn-buscar">Filtrar</button>
+                <button type="button" id="btn-limpar" class="btn-limpar">Limpar</button>
+            </div>
+
+            <!-- Informações sobre filtros ativos -->
+            <div id="busca-info" class="busca-info oculto"></div>
+        </div>
+
         <div class="avaliacoes-grid" id="avaliacoes-grid">
             <div class="empty-state" id="carregando-avaliacoes">
                 <p>Carregando avaliações…</p>
