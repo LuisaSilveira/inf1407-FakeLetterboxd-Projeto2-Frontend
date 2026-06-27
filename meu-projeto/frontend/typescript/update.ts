@@ -29,7 +29,7 @@ async function carregarAvaliacao(id: string): Promise<void> {
 
         // Preenche info da mídia com os campos que o backend já retorna na avaliação
         const poster = document.getElementById("poster-midia") as HTMLImageElement;
-        const posterSrc: string = av["poster_midia"] ?? av["poster_url"] ?? "";
+        const posterSrc: string = av["poster_midia"] ?? "";
         if (posterSrc) { poster.src = posterSrc; } else { poster.style.display = "none"; }
 
         (document.getElementById("titulo-midia") as HTMLElement).textContent = av["titulo_midia"] ?? "—";

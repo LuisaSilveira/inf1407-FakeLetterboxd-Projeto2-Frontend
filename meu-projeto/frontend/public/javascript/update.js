@@ -21,7 +21,7 @@ onload = async () => {
  * :param id: ID da avaliação
  */
 async function carregarAvaliacao(id) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
     try {
         const response = await authFetch(backendAddress + "midias/avaliacao/" + id + "/");
         if (!response.ok) {
@@ -33,23 +33,23 @@ async function carregarAvaliacao(id) {
         midiaId = (_a = av["midia"]) !== null && _a !== void 0 ? _a : null;
         // Preenche info da mídia com os campos que o backend já retorna na avaliação
         const poster = document.getElementById("poster-midia");
-        const posterSrc = (_c = (_b = av["poster_midia"]) !== null && _b !== void 0 ? _b : av["poster_url"]) !== null && _c !== void 0 ? _c : "";
+        const posterSrc = (_b = av["poster_midia"]) !== null && _b !== void 0 ? _b : "";
         if (posterSrc) {
             poster.src = posterSrc;
         }
         else {
             poster.style.display = "none";
         }
-        document.getElementById("titulo-midia").textContent = (_d = av["titulo_midia"]) !== null && _d !== void 0 ? _d : "—";
-        const tipo = (_e = av["tipo_midia"]) !== null && _e !== void 0 ? _e : "";
-        const genero = (_f = av["genero_midia"]) !== null && _f !== void 0 ? _f : "";
+        document.getElementById("titulo-midia").textContent = (_c = av["titulo_midia"]) !== null && _c !== void 0 ? _c : "—";
+        const tipo = (_d = av["tipo_midia"]) !== null && _d !== void 0 ? _d : "";
+        const genero = (_e = av["genero_midia"]) !== null && _e !== void 0 ? _e : "";
         const detalhes = [tipo, genero].filter(Boolean).join(" • ");
         document.getElementById("detalhes-midia").textContent = detalhes;
-        document.getElementById("sinopse-midia").textContent = (_h = (_g = av["sinopse"]) !== null && _g !== void 0 ? _g : av["sinopse_midia"]) !== null && _h !== void 0 ? _h : "";
+        document.getElementById("sinopse-midia").textContent = (_g = (_f = av["sinopse"]) !== null && _f !== void 0 ? _f : av["sinopse_midia"]) !== null && _g !== void 0 ? _g : "";
         // Preenche form
-        document.getElementById("nota").value = String((_j = av["nota"]) !== null && _j !== void 0 ? _j : 3);
-        document.getElementById("comentario").value = (_k = av["comentario"]) !== null && _k !== void 0 ? _k : "";
-        document.getElementById("assistido_em").value = (_l = av["assistido_em"]) !== null && _l !== void 0 ? _l : "";
+        document.getElementById("nota").value = String((_h = av["nota"]) !== null && _h !== void 0 ? _h : 3);
+        document.getElementById("comentario").value = (_j = av["comentario"]) !== null && _j !== void 0 ? _j : "";
+        document.getElementById("assistido_em").value = (_k = av["assistido_em"]) !== null && _k !== void 0 ? _k : "";
     }
     catch (error) {
         console.error("Erro ao carregar avaliação:", error);

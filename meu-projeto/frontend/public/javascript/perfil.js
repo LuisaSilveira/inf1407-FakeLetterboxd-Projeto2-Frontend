@@ -105,8 +105,8 @@ function criaCardPerfilFnFn(av, onApagar) {
     const article = document.createElement("article");
     article.className = "avaliacao-card";
     const autor = (_a = obterAutorAvaliacaoPerfil(av)) !== null && _a !== void 0 ? _a : "";
-    const posterHtml = av["poster_url"]
-        ? `<div class="poster-container"><img src="${av["poster_url"]}" alt="${(_b = av["titulo_midia"]) !== null && _b !== void 0 ? _b : ""}" class="midia-poster"></div>` : "";
+    const posterHtml = av["poster_midia"]
+        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${(_b = av["titulo_midia"]) !== null && _b !== void 0 ? _b : ""}" class="midia-poster"></div>` : "";
     const dataHtml = av["assistido_em"]
         ? `<div class="assistido-em">Assistido em ${formatarDataPerfil(av["assistido_em"])}</div>` : "";
     article.innerHTML = `

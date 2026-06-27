@@ -112,8 +112,8 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
     article.className = "avaliacao-card";
     const autor = obterAutorAvaliacaoPerfil(av) ?? "";
 
-    const posterHtml = av["poster_url"]
-        ? `<div class="poster-container"><img src="${av["poster_url"]}" alt="${av["titulo_midia"] ?? ""}" class="midia-poster"></div>` : "";
+    const posterHtml = av["poster_midia"]
+        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${av["titulo_midia"] ?? ""}" class="midia-poster"></div>` : "";
 
     const dataHtml = av["assistido_em"]
         ? `<div class="assistido-em">Assistido em ${formatarDataPerfil(av["assistido_em"])}</div>` : "";
