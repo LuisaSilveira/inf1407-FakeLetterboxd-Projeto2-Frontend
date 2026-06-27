@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeLetterboxd — Bem-vindo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #14181c;
+            color: #9ab;
+            font-family: 'Graphik', 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1f2832;
+            border-bottom: 1px solid #456;
+            padding: 0 2rem;
+            height: 60px;
+        }
+
+        .logo {
+            color: #00e054;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            gap: 1.5rem;
+        }
+
+        .hero-titulo {
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .hero-titulo span {
+            color: #00e054;
+            font-weight: 700;
+        }
+
+        .hero-subtitulo {
+            color: #9ab;
+            font-size: 1.1rem;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .hero-acoes {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-entrar {
+            background: #00e054;
+            color: #14181c;
+            border: 2px solid #00e054;
+            border-radius: 6px;
+            padding: 0.75rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-entrar:hover { background: #00c44a; border-color: #00c44a; }
+
+        .btn-cadastro {
+            background: transparent;
+            color: #9ab;
+            border: 2px solid #456;
+            border-radius: 6px;
+            padding: 0.75rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-cadastro:hover { border-color: #9ab; color: #fff; }
+
+        .rodape {
+            text-align: center;
+            padding: 1.5rem;
+            color: #456;
+            font-size: 0.85rem;
+            border-top: 1px solid #1f2832;
+        }
+    </style>
+    <script src="javascript/constantes.js"></script>
+    <script>
+        // Redireciona para a lista de avaliações se o usuário já estiver autenticado
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                location.href = 'index.html';
+            }
+        });
+    </script>
+</head>
+<body>
+    <header class="header">
+        <span class="logo">FakeLetterboxd</span>
+    </header>
+
+    <main class="hero">
+        <h1 class="hero-titulo">
+            Bem-vindo ao <span>FakeLetterboxd</span>
+        </h1>
+        <p class="hero-subtitulo">
+            Registre os filmes e séries que assistiu, escreva avaliações e acompanhe sua lista pessoal.
+        </p>
+        <div class="hero-acoes">
+            <a href="accounts/login.html" class="btn-entrar">Entrar</a>
+            <a href="accounts/cadastro.html" class="btn-cadastro">Criar conta</a>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        FakeLetterboxd &mdash; Projeto Acadêmico
+    </footer>
+</body>
+</html>

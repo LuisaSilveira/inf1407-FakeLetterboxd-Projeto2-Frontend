@@ -105,6 +105,8 @@ function criaCardPerfilFnFn(av, onApagar) {
     const article = document.createElement("article");
     article.className = "avaliacao-card";
     article.style.cursor = "pointer";
+    // Registra o click ANTES de qualquer manipulação de innerHTML para garantir
+    // que a navegação funcione mesmo que ocorra algum erro nos listeners dos botões.
     article.addEventListener("click", () => {
         location.href = "detalheAvaliacao.html?id=" + av["id"];
     });
@@ -128,9 +130,17 @@ function criaCardPerfilFnFn(av, onApagar) {
                 <button class="btn btn-apagar" data-id="${av["id"]}">Excluir</button>
             </div>
         </div>`;
-    article.querySelector(".btn-apagar").addEventListener("click", () => {
-        onApagar(Number(av["id"]));
-    });
+    const btnApagar = article.querySelector(".btn-apagar");
+    if (btnApagar) {
+        btnApagar.addEventListener("click", (e) => {
+            e.stopPropagation();
+            onApagar(Number(av["id"]));
+        });
+    }
+    const btnAtualizar = article.querySelector(".btn-atualizar");
+    if (btnAtualizar) {
+        btnAtualizar.addEventListener("click", (e) => e.stopPropagation());
+    }
     return article;
 }
 function obterAutorAvaliacaoPerfil(av) {
@@ -151,7 +161,7 @@ function configurarLogout() {
     document.getElementById("confirmar-logout").addEventListener("click", () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        location.href = "/";
+        location.href = "home.html";
     });
 }
 /** Configura botão de editar perfil e cancelar edição. */

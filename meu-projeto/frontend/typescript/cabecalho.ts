@@ -53,5 +53,6 @@ const logout = (evento: MouseEvent) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    window.location.href = '/';
+    // window.parent garante que a navegação ocorre na página pai, não no iframe
+    window.parent.location.href = 'home.html';
 }

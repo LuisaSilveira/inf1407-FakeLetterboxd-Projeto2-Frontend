@@ -112,9 +112,12 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
     article.className = "avaliacao-card";
     article.style.cursor = "pointer";
 
+    // Registra o click ANTES de qualquer manipulação de innerHTML para garantir
+    // que a navegação funcione mesmo que ocorra algum erro nos listeners dos botões.
     article.addEventListener("click", () => {
         location.href = "detalheAvaliacao.html?id=" + av["id"];
     });
+
     const autor = obterAutorAvaliacaoPerfil(av) ?? "";
 
     const posterHtml = av["poster_midia"]
@@ -139,9 +142,18 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
             </div>
         </div>`;
 
-    (article.querySelector(".btn-apagar") as HTMLButtonElement).addEventListener("click", () => {
-        onApagar(Number(av["id"]));
-    });
+    const btnApagar = article.querySelector(".btn-apagar") as HTMLButtonElement | null;
+    if (btnApagar) {
+        btnApagar.addEventListener("click", (e: Event) => {
+            e.stopPropagation();
+            onApagar(Number(av["id"]));
+        });
+    }
+
+    const btnAtualizar = article.querySelector(".btn-atualizar") as HTMLAnchorElement | null;
+    if (btnAtualizar) {
+        btnAtualizar.addEventListener("click", (e: Event) => e.stopPropagation());
+    }
 
     return article;
 }
@@ -164,7 +176,7 @@ function configurarLogout(): void {
     document.getElementById("confirmar-logout")!.addEventListener("click", () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        location.href = "/";
+        location.href = "home.html";
     });
 }
 
