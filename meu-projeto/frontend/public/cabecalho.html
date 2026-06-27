@@ -6,19 +6,23 @@
     <script src="javascript/constantes.js"></script>
     <script src="javascript/accounts/common.js"></script>
     <script src="javascript/cabecalho.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
-    <a href="/" target="_top" class="btn btn-primary">Home</a>
-    <div id="unlogged" class="visivel">
-        <a href="accounts/login.html" target="_top" class="btn btn-success">Login</a>
-    </div>
-    <div id="logged" class="invisivel">
-        <a href="accounts/passwordChange.html" target="_top" class="btn btn-warning">Troca senha</a>
-        <a href="accounts/logout.html" target="_top" class="btn btn-danger" id="logout">Logout</a>
-    </div>
-    Você é <div id="identificacao" class="mesmaLinha">visitante</div>
-<hr>
+    <header class="header">
+        <a href="/" target="_top" class="logo">FakeLetterboxd</a>
+        <nav class="header-nav">
+            <div id="unlogged" class="visivel">
+                <a href="accounts/login.html" target="_top" class="nav-link nav-link-verde">Login</a>
+                <a href="accounts/cadastro.html" target="_top" class="nav-link nav-link-verde">Criar conta</a>
+            </div>
+            <div id="logged" class="invisivel">
+                <span class="nav-usuario">Olá, <span id="identificacao">visitante</span></span>
+                <a href="perfil.html" target="_top" class="nav-link nav-link-verde">Perfil</a>
+                <a href="accounts/passwordChange.html" target="_top" class="nav-link nav-link-verde">Trocar senha</a>
+                <button class="nav-link nav-link-laranja" id="logout">Sair</button>
+            </div>
+        </nav>
+    </header>
 </body>
 </html>

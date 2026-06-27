@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro — FakeLetterboxd</title>
+    <script src="../javascript/constantes.js"></script>
+    <script src="../javascript/accounts/common.js"></script>
+    <script src="../javascript/accounts/cadastro.js"></script>
+    <link rel="stylesheet" href="../css/forms.css">
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">FakeLetterboxd</a>
+    </header>
+
+    <div class="form-wrapper">
+        <div class="form-card">
+            <h1>Criar conta</h1>
+            <form id="cadastroForm">
+                <div class="campo">
+                    <label for="username">Usuário *</label>
+                    <input type="text" id="username" name="username" autocomplete="username" autofocus required>
+                </div>
+                <div class="campo">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required>
+                </div>
+                <div class="campo">
+                    <label for="first_name">Nome</label>
+                    <input type="text" id="first_name" name="first_name">
+                </div>
+                <div class="campo">
+                    <label for="last_name">Sobrenome</label>
+                    <input type="text" id="last_name" name="last_name">
+                </div>
+                <div class="campo">
+                    <label for="password">Senha *</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" autocomplete="new-password" required>
+                        <img src="../img/eye-off.svg" alt="Mostrar senha" class="toggle-password">
+                    </div>
+                    <span class="helptext">Mínimo 8 caracteres. Não pode ser inteiramente numérica.</span>
+                </div>
+                <div class="campo">
+                    <label for="password2">Confirmar senha *</label>
+                    <div class="password-container">
+                        <input type="password" id="password2" name="password2" autocomplete="new-password" required>
+                        <img src="../img/eye-off.svg" alt="Mostrar senha" class="toggle-password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Cadastrar</button>
+            </form>
+            <div id="msg" class="msg-feedback oculto"></div>
+            <div class="form-footer">
+                <p>Já tem conta? <a href="login.html">Entrar</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
