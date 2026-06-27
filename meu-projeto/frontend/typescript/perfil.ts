@@ -30,10 +30,12 @@ async function carregarPerfil(): Promise<void> {
         (document.getElementById("perfil-email") as HTMLElement).textContent = dados.email ?? "";
         const nome = [dados.first_name, dados.last_name].filter(Boolean).join(" ");
         (document.getElementById("perfil-nome") as HTMLElement).textContent = nome;
+        (document.getElementById("perfil-bio") as HTMLElement).textContent = dados.bio ?? "";
 
         (document.getElementById("email") as HTMLInputElement).value = dados.email ?? "";
         (document.getElementById("first_name") as HTMLInputElement).value = dados.first_name ?? "";
         (document.getElementById("last_name") as HTMLInputElement).value = dados.last_name ?? "";
+        (document.getElementById("bio") as HTMLTextAreaElement).value = dados.bio ?? "";
     } catch (error) {
         console.error("Erro ao carregar perfil:", error);
     }
@@ -177,11 +179,14 @@ function configurarEdicao(): void {
 /** Salva as alterações do perfil via PATCH. */
 async function salvarPerfilFn(): Promise<void> {
     const msg = document.getElementById("msg-perfil") as HTMLDivElement;
+    
     const body = {
         email:      (document.getElementById("email")      as HTMLInputElement).value,
         first_name: (document.getElementById("first_name") as HTMLInputElement).value,
         last_name:  (document.getElementById("last_name")  as HTMLInputElement).value,
+        bio:        (document.getElementById("bio")        as HTMLTextAreaElement).value,
     };
+
     try {
         const response = await authFetch(backendAddress + "accounts/perfil/", {
             method: "PATCH",

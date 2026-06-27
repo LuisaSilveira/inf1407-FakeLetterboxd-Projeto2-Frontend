@@ -20,7 +20,7 @@ onload = async () => {
 };
 /** Carrega e exibe os dados do perfil do usuário. */
 async function carregarPerfil() {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     try {
         const response = await authFetch(backendAddress + "accounts/perfil/");
         if (response.status === 401) {
@@ -33,9 +33,11 @@ async function carregarPerfil() {
         document.getElementById("perfil-email").textContent = (_c = dados.email) !== null && _c !== void 0 ? _c : "";
         const nome = [dados.first_name, dados.last_name].filter(Boolean).join(" ");
         document.getElementById("perfil-nome").textContent = nome;
-        document.getElementById("email").value = (_d = dados.email) !== null && _d !== void 0 ? _d : "";
-        document.getElementById("first_name").value = (_e = dados.first_name) !== null && _e !== void 0 ? _e : "";
-        document.getElementById("last_name").value = (_f = dados.last_name) !== null && _f !== void 0 ? _f : "";
+        document.getElementById("perfil-bio").textContent = (_d = dados.bio) !== null && _d !== void 0 ? _d : "";
+        document.getElementById("email").value = (_e = dados.email) !== null && _e !== void 0 ? _e : "";
+        document.getElementById("first_name").value = (_f = dados.first_name) !== null && _f !== void 0 ? _f : "";
+        document.getElementById("last_name").value = (_g = dados.last_name) !== null && _g !== void 0 ? _g : "";
+        document.getElementById("bio").value = (_h = dados.bio) !== null && _h !== void 0 ? _h : "";
     }
     catch (error) {
         console.error("Erro ao carregar perfil:", error);
@@ -167,6 +169,7 @@ async function salvarPerfilFn() {
         email: document.getElementById("email").value,
         first_name: document.getElementById("first_name").value,
         last_name: document.getElementById("last_name").value,
+        bio: document.getElementById("bio").value,
     };
     try {
         const response = await authFetch(backendAddress + "accounts/perfil/", {

@@ -28,9 +28,6 @@
 
     <!-- Perfil header -->
     <section class="perfil-header">
-        <div class="perfil-avatar">
-            <img src="img/placeholder-profile.svg" alt="Foto de perfil" id="foto-perfil">
-        </div>
         <div class="perfil-info">
             <p class="perfil-username" id="perfil-username"></p>
             <div class="perfil-stats">
@@ -39,6 +36,7 @@
             <div class="perfil-detalhes">
                 <p id="perfil-email"></p>
                 <p id="perfil-nome"></p>
+                <p id="perfil-bio" class="perfil-bio"></p>
             </div>
             <a href="#editar" class="btn-editar" id="btn-editar-perfil">Editar perfil</a>
         </div>
@@ -60,6 +58,10 @@
                 <div class="perfil-campo">
                     <label for="last_name">Sobrenome</label>
                     <input type="text" id="last_name" name="last_name">
+                </div>
+                <div class="perfil-campo">
+                    <label for="bio">Biografia</label>
+                    <textarea id="bio" name="bio" rows="4"></textarea>
                 </div>
                 <div class="perfil-acoes">
                     <button type="button" class="btn-salvar" id="salvar-perfil">Salvar</button>
