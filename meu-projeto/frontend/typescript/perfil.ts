@@ -194,9 +194,7 @@ async function salvarPerfilFn(): Promise<void> {
             body: JSON.stringify(body)
         });
         if (response.ok) {
-            msg.textContent = "Perfil atualizado com sucesso!";
-            msg.className = "msg-perfil success";
-            await carregarPerfil();
+            location.reload();
         } else {
             const err = await response.json();
             msg.textContent = "Erro: " + Object.values(err).map((v: unknown) => Array.isArray(v) ? (v as string[]).join(", ") : String(v)).join(" ");
