@@ -1,3 +1,14 @@
+/**
+ * common.ts — Funções auxiliares para gerência de usuário.
+ * Conforme slides 55-61 da aula de Controle de Acesso.
+ * Funções:
+ *   - Mostrar/ocultar conteúdo do campo senha (toggle-password)
+ *   - Decodificar payload do token JWT
+ *   - Verificar se o token expirou
+ *   - Atualizar token de acesso pelo token de refresh
+ *   - Função genérica de acesso HTTP com cabeçalho de autenticação (authFetch)
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
     // Para cada campo password, adiciona um ícone de olho para mostrar/ocultar a senha
     // cria um vetor de containers, cada um contendo um campo de senha e seu respectivo ícone de olho
@@ -12,16 +23,21 @@ document.addEventListener("DOMContentLoaded", () => {
         objImgEye.addEventListener("click", () => {
             if (objInput.type === "password") {
                 objInput.type = "text";
-                objImgEye.src = "img/eye.svg";
-            } 
-            else {
+                objImgEye.src = "../img/eye.svg";
+            } else {
                 objInput.type = "password";
-                objImgEye.src = "img/eye-off.svg";
+                objImgEye.src = "../img/eye-off.svg";
             }
         });
     });
 });
 
+/**
+ * Função para decodificar um token JWT e extrair seu payload.
+ * Conforme slide 56 da aula de Controle de Acesso.
+ * @param token token a ser decodificado
+ * @returns retorna o token decodificado
+ */
 const decodeJWT = (token: string): any => {
     const payload = token.split('.')[1];
     if (!payload) return null;
@@ -29,17 +45,29 @@ const decodeJWT = (token: string): any => {
     return JSON.parse(decodedPayload);
 }
 
+/**
+ * Verifica se um token de acesso JWT expirou,
+ * comparando a data de expiração do token com a data atual.
+ * Conforme slide 57 da aula de Controle de Acesso.
+ * @param token token cuja validade deve ser verificada
+ * @returns verdadeiro se o token expirou, falso, caso contrário
+ */
 const isAccessTokenExpired = (token: string): boolean => {
     const decoded = decodeJWT(token);
     const now = Math.floor(Date.now() / 1000);
     return decoded.exp < now;
 }
 
+/**
+ * Função para atualizar o token de acesso usando o token de refresh.
+ * Se o token de refresh for inválido ou expirado, ambos os tokens são removidos do localStorage.
+ * Conforme slides 58-59 da aula de Controle de Acesso.
+ */
 const refreshAccessToken = async (): Promise<void> => {
     const refreshToken = localStorage.getItem('refresh_token');
     if (!refreshToken) {
-    console.error('No refresh token available');
-    return;
+        console.error('No refresh token available');
+        return;
     }
     try {
         const response = await fetch(backendAddress + 'api/token/refresh/', {
@@ -62,6 +90,17 @@ const refreshAccessToken = async (): Promise<void> => {
     }
 }
 
+/**
+ * Função para fazer requisições HTTP autenticadas usando o token de acesso.
+ * Antes de fazer a requisição, verifica se o token de acesso expirou.
+ * Se o token de acesso expirou, tenta atualizar o token usando o token de refresh.
+ * Se a atualização do token for bem-sucedida, a requisição é feita com o novo token de acesso.
+ * Se a atualização do token falhar, a requisição é feita sem o token de acesso.
+ * Conforme slides 60-61 da aula de Controle de Acesso.
+ * @param url endereço do endpoint
+ * @param options cabeçalhos da requisição http
+ * @returns o resultado da requisição http feita usando fetch
+ */
 const authFetch = async (url: string, options: RequestInit = {}): Promise<Response> => {
     let accessToken = localStorage.getItem('access_token');
     if (accessToken && isAccessTokenExpired(accessToken)) {

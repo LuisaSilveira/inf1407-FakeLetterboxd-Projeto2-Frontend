@@ -1,13 +1,23 @@
+/**
+ * cabecalho.ts — Navbar do site.
+ * Verifica autenticação via whoami e exibe menu adequado.
+ */
+
 addEventListener('load', async () => {
     document.getElementById('logout')?.addEventListener('click', logout);
     identifica();
 });
 
+/**
+ * Função para identificar o usuário autenticado.
+ * Exibe o nome do usuário autenticado
+ * ou "visitante" se não houver um usuário autenticado.
+ */
 const identifica = async () => {
     const spanElement = document.getElementById('identificacao') as HTMLSpanElement;
     const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
     const response = await authFetch(backendAddress + 'accounts/whoami/', {
         method: 'GET',
@@ -33,6 +43,12 @@ const identifica = async () => {
     }
 }
 
+/**
+ * Função para realizar o logout do usuário.
+ * Removendo os tokens do armazenamento local
+ * e redireciona para a home page.
+ * @param evento click de mouse
+ */
 const logout = (evento: MouseEvent) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');
