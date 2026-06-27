@@ -258,6 +258,16 @@ function criaCardLista(av: any): HTMLElement {
         });
     }
 
+    const btnAtualizar = article.querySelector(".btn-atualizar") as HTMLAnchorElement | null;
+    if (btnAtualizar) {
+        btnAtualizar.addEventListener("click", (e: Event) => e.stopPropagation());
+    }
+
+    article.style.cursor = "pointer";
+    article.addEventListener("click", () => {
+        location.href = "detalheAvaliacao.html?id=" + av["id"];
+    });
+
     return article;
 }
 

@@ -251,6 +251,14 @@ function criaCardLista(av) {
             document.getElementById("modal-apagar").classList.add("ativo");
         });
     }
+    const btnAtualizar = article.querySelector(".btn-atualizar");
+    if (btnAtualizar) {
+        btnAtualizar.addEventListener("click", (e) => e.stopPropagation());
+    }
+    article.style.cursor = "pointer";
+    article.addEventListener("click", () => {
+        location.href = "detalheAvaliacao.html?id=" + av["id"];
+    });
     return article;
 }
 function obterAutorAvaliacaoLista(av) {

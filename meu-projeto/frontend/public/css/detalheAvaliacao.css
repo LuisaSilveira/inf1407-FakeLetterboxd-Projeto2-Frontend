@@ -1,0 +1,227 @@
+/* detalheAvaliacao.css */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #14181c;
+    color: #9ab;
+    font-family: 'Graphik', 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f2832;
+    border-bottom: 1px solid #456;
+    padding: 0 2rem;
+    height: 60px;
+}
+
+.logo {
+    color: #00e054;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.btn-voltar {
+    background: transparent;
+    color: #9ab;
+    border: 1px solid #456;
+    border-radius: 4px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+.btn-voltar:hover { border-color: #9ab; color: #fff; }
+
+.detalhe-main {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 2rem 4rem;
+}
+
+.detalhe-loading {
+    text-align: center;
+    padding: 4rem;
+    color: #678;
+}
+
+.detalhe-erro {
+    text-align: center;
+    padding: 4rem;
+    color: #678;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.btn-back {
+    color: #9ab;
+    text-decoration: none;
+    border: 1px solid #456;
+    border-radius: 4px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+.btn-back:hover { border-color: #9ab; color: #fff; }
+
+.detalhe-card {
+    background: #1f2832;
+    border: 1px solid #456;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.det-topo {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.det-poster-wrap { flex-shrink: 0; }
+
+.det-poster {
+    width: 160px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #456;
+    background: #14181c;
+    display: block;
+}
+
+.det-poster-placeholder {
+    width: 160px;
+    height: 240px;
+    border-radius: 8px;
+    border: 1px solid #456;
+    background: #14181c;
+}
+
+.det-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+.det-titulo {
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.det-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.det-badge {
+    background: #2c3440;
+    border: 1px solid #456;
+    color: #9ab;
+    border-radius: 4px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.82rem;
+    text-transform: capitalize;
+}
+
+.det-nota {
+    background: #00e054;
+    color: #14181c;
+    padding: 0.25rem 0.85rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.det-secao {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.det-secao-titulo {
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #2c3440;
+    padding-bottom: 0.4rem;
+}
+
+.det-sinopse {
+    color: #9ab;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.det-comentario {
+    color: #9ab;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.det-datas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.82rem;
+    color: #678;
+}
+
+.det-acoes { margin-top: 0.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.btn-det-editar {
+    display: inline-block;
+    background: transparent;
+    color: #00e054;
+    border: 2px solid #00e054;
+    border-radius: 4px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-family: inherit;
+}
+.btn-det-editar:hover { background: #00e054; color: #14181c; }
+
+.btn-det-deletar {
+    display: inline-block;
+    background: transparent;
+    color: #ff8000;
+    border: 2px solid #ff8000;
+    border-radius: 4px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+.btn-det-deletar:hover { background: #ff8000; color: #fff; }
+
+@media (max-width: 560px) {
+    .det-topo { flex-direction: column; }
+    .det-poster, .det-poster-placeholder { width: 100%; height: 220px; }
+    .det-titulo { font-size: 1.3rem; }
+    .detalhe-main { margin: 1.5rem auto; }
+}
