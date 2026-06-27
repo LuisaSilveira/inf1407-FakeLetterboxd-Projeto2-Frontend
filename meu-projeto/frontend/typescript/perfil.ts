@@ -110,6 +110,11 @@ async function carregarAvaliacoesPerfil(params: Record<string, string> = {}): Pr
 function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElement {
     const article = document.createElement("article");
     article.className = "avaliacao-card";
+    article.style.cursor = "pointer";
+
+    article.addEventListener("click", () => {
+        location.href = "detalheAvaliacao.html?id=" + av["id"];
+    });
     const autor = obterAutorAvaliacaoPerfil(av) ?? "";
 
     const posterHtml = av["poster_midia"]

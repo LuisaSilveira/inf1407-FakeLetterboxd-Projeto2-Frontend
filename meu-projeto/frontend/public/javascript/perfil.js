@@ -104,6 +104,10 @@ function criaCardPerfilFnFn(av, onApagar) {
     var _a, _b, _c, _d;
     const article = document.createElement("article");
     article.className = "avaliacao-card";
+    article.style.cursor = "pointer";
+    article.addEventListener("click", () => {
+        location.href = "detalheAvaliacao.html?id=" + av["id"];
+    });
     const autor = (_a = obterAutorAvaliacaoPerfil(av)) !== null && _a !== void 0 ? _a : "";
     const posterHtml = av["poster_midia"]
         ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${(_b = av["titulo_midia"]) !== null && _b !== void 0 ? _b : ""}" class="midia-poster"></div>` : "";
