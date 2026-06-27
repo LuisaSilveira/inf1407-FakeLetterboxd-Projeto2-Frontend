@@ -215,8 +215,8 @@ function criaCardLista(av) {
     const article = document.createElement("article");
     article.className = "avaliacao-card";
     // Poster
-    const posterHtml = av["poster_url"]
-        ? `<div class="poster-container"><img src="${av["poster_url"]}" alt="${(_a = av["titulo_midia"]) !== null && _a !== void 0 ? _a : ""}" class="midia-poster"></div>`
+    const posterHtml = av["poster_midia"]
+        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${(_a = av["titulo_midia"]) !== null && _a !== void 0 ? _a : ""}" class="midia-poster"></div>`
         : "";
     // Data
     const dataHtml = av["assistido_em"]

@@ -217,8 +217,8 @@ function criaCardLista(av: any): HTMLElement {
     article.className = "avaliacao-card";
 
     // Poster
-    const posterHtml = av["poster_url"]
-        ? `<div class="poster-container"><img src="${av["poster_url"]}" alt="${av["titulo_midia"] ?? ""}" class="midia-poster"></div>`
+    const posterHtml = av["poster_midia"]
+        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${av["titulo_midia"] ?? ""}" class="midia-poster"></div>`
         : "";
 
     // Data
