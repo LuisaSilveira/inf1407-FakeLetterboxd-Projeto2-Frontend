@@ -17,7 +17,7 @@
         <h1>Editar Avaliação</h1>
 
         <!-- Mídia atual -->
-        <div class="secao">
+        <div class="secao" id="secao-midia-atual">
             <h2><span class="check-icon">✓</span> Mídia Selecionada</h2>
             <div class="resultado-item midia-selecionada">
                 <img class="poster" id="poster-midia" src="" alt="">
@@ -26,7 +26,20 @@
                     <div class="detalhes-midia" id="detalhes-midia"></div>
                     <div class="sinopse" id="sinopse-midia"></div>
                 </div>
+                <div class="actions">
+                    <button class="btn btn-danger" id="trocar-midia">Trocar</button>
+                </div>
             </div>
+        </div>
+
+        <!-- Busca de nova mídia (oculto inicialmente) -->
+        <div class="secao oculto" id="secao-busca">
+            <h2>Buscar Nova Mídia</h2>
+            <div class="busca-form">
+                <input type="text" id="queryOmdb" class="busca-input" placeholder="Digite o título...">
+                <button class="btn btn-primary" id="buscaOmdb">Buscar</button>
+            </div>
+            <div id="listaResultados"></div>
         </div>
 
         <!-- Formulário -->
