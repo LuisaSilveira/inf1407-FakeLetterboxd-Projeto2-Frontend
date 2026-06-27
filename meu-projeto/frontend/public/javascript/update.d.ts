@@ -1,2 +1,2 @@
-declare function atualizaCarro(evento: MouseEvent): Promise<void>;
+declare function atualizaAvaliacao(evento: MouseEvent): Promise<void>;
 //# sourceMappingURL=update.d.ts.map

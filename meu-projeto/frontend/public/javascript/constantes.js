@@ -1,3 +1,3 @@
 "use strict";
-const backendAddress = "https://literate-space-telegram-4xjxjq64g7x27qw-8000.app.github.dev/";
+const backendAddress = "https://effective-space-waddle-xj5j5rx6rpj26wqg-8000.app.github.dev/";
 //# sourceMappingURL=constantes.js.map

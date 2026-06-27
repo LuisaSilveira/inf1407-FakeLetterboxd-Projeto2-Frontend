@@ -1,28 +1,37 @@
 "use strict";
 onload = async () => {
-    // Parte 1: carregar dados do carro a ser editado e preencher o formulário
-    // Carrega os dados do carro a ser editado do banco de dados
-    // Preenche o formulário com os dados do carro
+    var _a, _b, _c, _d;
+    // Parte 1: carregar dados da avaliação a ser editada e preencher o formulário
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-    const idPlace = document.getElementById('id');
+    const idPlace = document.getElementById('idAvaliacao');
     if (id) {
         idPlace.textContent = id;
         try {
-            const response = await fetch(backendAddress + 'carros/umcarro/' + id + '/');
+            const response = await authFetch(backendAddress + 'midias/avaliacao/' + id + '/');
             if (response.ok) {
-                const carro = await response.json();
-                let campos = ['id', 'name', 'mpg', 'cyl', 'disp', 'hp', 'wt', 'qsec', 'vs', 'am', 'gear'];
-                campos.forEach(campo => {
-                    document.getElementById(campo).value = carro[campo];
+                const avaliacao = await response.json();
+                // Preenche campos da avaliação
+                const camposAvaliacao = ['nota', 'comentario', 'assistido_em'];
+                camposAvaliacao.forEach(campo => {
+                    var _a;
+                    const el = document.getElementById(campo);
+                    if (el)
+                        el.value = (_a = avaliacao[campo]) !== null && _a !== void 0 ? _a : '';
                 });
+                // Exibe info da mídia (somente leitura)
+                const midia = (_a = avaliacao['midia']) !== null && _a !== void 0 ? _a : {};
+                const infoMidia = document.getElementById('infoMidia');
+                if (infoMidia) {
+                    infoMidia.textContent = ((_b = midia['titulo']) !== null && _b !== void 0 ? _b : '') + ' (' + ((_c = midia['tipo']) !== null && _c !== void 0 ? _c : '') + ', ' + ((_d = midia['ano_lancamento']) !== null && _d !== void 0 ? _d : '') + ')';
+                }
             }
             else {
-                console.error('Erro ao buscar dados do carro:', response.status);
+                console.error('Erro ao buscar dados da avaliação:', response.status);
             }
         }
         catch (error) {
-            console.error('Erro ao buscar dados do carro:', error);
+            console.error('Erro ao buscar dados da avaliação:', error);
         }
     }
     else {
@@ -31,9 +40,9 @@ onload = async () => {
     }
     // Parte 2: configurar o evento de clique do botão "Atualizar"
     const objBotao = document.getElementById('atualiza');
-    objBotao.addEventListener('click', atualizaCarro);
+    objBotao.addEventListener('click', atualizaAvaliacao);
 };
-async function atualizaCarro(evento) {
+async function atualizaAvaliacao(evento) {
     evento.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
@@ -48,16 +57,17 @@ async function atualizaCarro(evento) {
         }
     }
     try {
-        const response = await fetch(backendAddress + 'carros/umcarro/' + id + '/', {
+        const response = await authFetch(backendAddress + 'midias/avaliacao/' + id + '/', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
         });
         if (response.ok) {
-            document.getElementById('mensagem').textContent = 'Carro atualizado';
+            document.getElementById('mensagem').textContent = 'Avaliação atualizada com sucesso!';
         }
         else {
-            document.getElementById('mensagem').textContent = 'Erro ao atualizar';
+            const err = await response.json();
+            document.getElementById('mensagem').textContent = 'Erro ao atualizar: ' + JSON.stringify(err);
         }
     }
     catch (error) {
