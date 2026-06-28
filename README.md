@@ -32,6 +32,9 @@ O frontend se comunica com um backend Django via API REST, utilizando autentica�
 | ![Home](./screenshots/home.png) | ![Lista](./screenshots/lista.png) 
 | ![Perfil](./screenshots/perfil.png) |
 
+| Detalhe da Avaliação |
+|---|
+| ![Detalhe](./screenshots/detalhe.png) |
 
 ---
 
