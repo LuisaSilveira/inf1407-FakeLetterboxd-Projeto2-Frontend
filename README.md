@@ -27,9 +27,16 @@ O frontend se comunica com um backend Django via API REST, utilizando autentica�
 
 ##  Telas da Aplicação
 
-| Home (não autenticado) | Lista de Avaliações | Perfil do Usuário |
-|---|---|---|
-| ![Home](./screenshots/home.png) | ![Lista](./screenshots/lista.png) 
+| Home (não autenticado) |
+|---|
+| ![Home](./screenshots/home.png) |
+
+| Lista de Avaliações |
+|---|
+| ![Lista](./screenshots/lista.png)|
+
+|Perfil do Usuário |
+|---|
 | ![Perfil](./screenshots/perfil.png) |
 
 | Detalhe da Avaliação |
