@@ -6,7 +6,7 @@
 
 ---
 
-## 🔗 Links
+##  Links
 
 | Recurso | URL |
 |---|---|
@@ -25,14 +25,13 @@ O frontend se comunica com um backend Django via API REST, utilizando autentica�
 
 ---
 
-## 🖼️ Telas da Aplicação
+##  Telas da Aplicação
 
 | Home (não autenticado) | Lista de Avaliações | Perfil do Usuário |
 |---|---|---|
 | ![Home](./screenshots/home.png) | ![Lista](./screenshots/lista.png) 
 | ![Perfil](./screenshots/perfil.png) |
 
-> As imagens acima se encontram na pasta `screenshots/` do repositório.
 
 ---
 
@@ -59,7 +58,7 @@ frontend/public/
 
 ---
 
-## ⚙️ Instalação Local
+## Instalação Local
 
 ### Pré-requisitos
 
@@ -337,4 +336,3 @@ Cada arquivo `.ts` tem responsabilidade única e bem definida:
 
 ---
 
-*Trabalho desenvolvido para a disciplina INF1407 — Programação para Web · PUC-Rio · 2026/1*
