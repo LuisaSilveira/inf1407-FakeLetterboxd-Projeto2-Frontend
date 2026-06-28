@@ -10,10 +10,10 @@
 
 | Recurso | URL |
 |---|---|
-| Site do Frontend | `<https://fake-letterboxd-two.vercel.app/>` |
+| Site do Frontend | `https://fake-letterboxd-two.vercel.app/` |
 | Site do Backend | `https://luisas4.pythonanywhere.com/` |
-| Repositório do Frontend | `<https://github.com/LuisaSilveira/inf1407-FakeLetterboxd-Projeto2-Frontend/>` |
-| Repositório do Backend | `<https://github.com/LuisaSilveira/inf1407-FakeLetterboxd-Projeto2-Backend>` |
+| Repositório do Frontend | `https://github.com/LuisaSilveira/inf1407-FakeLetterboxd-Projeto2-Frontend/` |
+| Repositório do Backend | `https://github.com/LuisaSilveira/inf1407-FakeLetterboxd-Projeto2-Backend` |
 
 ---
 
