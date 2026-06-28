@@ -29,7 +29,8 @@ O frontend se comunica com um backend Django via API REST, utilizando autentica�
 
 | Home (não autenticado) | Lista de Avaliações | Perfil do Usuário |
 |---|---|---|
-| ![Home](./screenshots/home.png) | ![Lista](./screenshots/lista.png) | ![Perfil](./screenshots/perfil.png) |
+| ![Home](./screenshots/home.png) | ![Lista](./screenshots/lista.png) 
+| ![Perfil](./screenshots/perfil.png) |
 
 > As imagens acima se encontram na pasta `screenshots/` do repositório.
 
