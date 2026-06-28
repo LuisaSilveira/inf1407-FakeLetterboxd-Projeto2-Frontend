@@ -278,51 +278,6 @@ Exibe os dados do usuário autenticado e **apenas as avaliações feitas por ele
 
 ---
 
-## 🔌 Endpoints do Backend Consumidos
-
-Todos os endpoints são relativos à URL base: `https://luisas4.pythonanywhere.com/`
-
-| Método | Endpoint | Autenticação | Descrição |
-|---|---|---|---|
-| `POST` | `api/token/` | Não | Obter tokens JWT (login) |
-| `POST` | `api/token/refresh/` | Não | Renovar access token |
-| `POST` | `accounts/cadastro/` | Não | Criar nova conta |
-| `GET` | `accounts/whoami/` | Sim | Obter username do usuário logado |
-| `GET` | `accounts/perfil/` | Sim | Obter dados do perfil |
-| `PUT` | `accounts/perfil/` | Sim | Atualizar dados do perfil |
-| `DELETE` | `accounts/perfil/` | Sim | Deletar conta do usuário |
-| `POST` | `accounts/password-reset/` | Não | Solicitar reset de senha por e-mail |
-| `PUT` | `accounts/change-password/` | Sim | Trocar senha (autenticado) |
-| `GET` | `midias/avaliacao/` | Sim | Listar avaliações (com filtros opcionais) |
-| `POST` | `midias/avaliacao/` | Sim | Criar avaliação |
-| `GET` | `midias/avaliacao/{id}/` | Sim | Detalhe de uma avaliação |
-| `PUT` | `midias/avaliacao/{id}/` | Sim | Atualizar avaliação |
-| `DELETE` | `midias/avaliacao/{id}/` | Sim | Deletar avaliação |
-| `GET` | `midias/busca-omdb/?busca_midia=` | Sim | Buscar títulos na OMDb via backend |
-
-### Parâmetros de filtro aceitos em `GET midias/avaliacao/`
-
-| Parâmetro | Tipo | Descrição |
-|---|---|---|
-| `busca_titulo` | string | Filtra por título da mídia |
-| `busca_pessoa` | string | Filtra por diretor ou elenco |
-| `tipo_midia` | string | `movie` ou `series` |
-| `genero_midia` | string | Gênero (ex: `Action`, `Drama`) |
-| `ordem_nota` | string | `asc` ou `desc` |
-
----
-
-## ⚙️ Tecnologias Utilizadas
-
-- **HTML5** — estrutura das páginas
-- **CSS3** — estilização (arquivos separados por página)
-- **TypeScript** — toda a lógica de frontend (compilado para JS)
-- **JWT** — autenticação via `localStorage`
-- **Fetch API** — comunicação com o backend
-- **OMDb API** (via backend) — busca de filmes e séries
-
-
----
 
 ##  Organização do Código TypeScript
 
