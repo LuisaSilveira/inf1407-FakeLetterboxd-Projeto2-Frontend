@@ -1,4 +1,4 @@
-declare const backendAddress = "https://studious-space-goldfish-76x547g9rggfrpwp-8000.app.github.dev/";
+declare const backendAddress = "https://luisas4.pythonanywhere.com/";
 interface JwtResposta {
     access: string;
     refresh: string;

@@ -1,1 +1,1 @@
-{"version":3,"file":"constantes.d.ts","sourceRoot":"","sources":["../../typescript/constantes.ts"],"names":[],"mappings":"AAAA,QAAA,MAAM,cAAc,0EAA0E,CAAC;AAE/F,UAAU,WAAW;IACjB,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,EAAE,MAAM,CAAC;CACnB"}
+{"version":3,"file":"constantes.d.ts","sourceRoot":"","sources":["../../typescript/constantes.ts"],"names":[],"mappings":"AAAA,QAAA,MAAM,cAAc,wCAAwC,CAAC;AAE7D,UAAU,WAAW;IACjB,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,EAAE,MAAM,CAAC;CACnB"}
