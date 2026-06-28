@@ -9,40 +9,6 @@ body {
     min-height: 100vh;
 }
 
-/* Header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1f2832;
-    border-bottom: 1px solid #456;
-    padding: 0 2rem;
-    height: 60px;
-}
-
-.logo {
-    color: #00e054;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-decoration: none;
-}
-
-.btn-logout {
-    background: transparent;
-    color: #ff8000;
-    border: 2px solid #ff8000;
-    border-radius: 4px;
-    padding: 0.4rem 1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
-    text-decoration: none;
-}
-.btn-logout:hover { background: #ff8000; color: #fff; }
-
 /* Perfil header */
 .perfil-header {
     display: flex;

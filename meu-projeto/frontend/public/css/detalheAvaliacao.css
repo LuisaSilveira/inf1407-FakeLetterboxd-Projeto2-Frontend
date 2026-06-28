@@ -9,38 +9,6 @@ body {
     min-height: 100vh;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1f2832;
-    border-bottom: 1px solid #456;
-    padding: 0 2rem;
-    height: 60px;
-}
-
-.logo {
-    color: #00e054;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-decoration: none;
-}
-
-.btn-voltar {
-    background: transparent;
-    color: #9ab;
-    border: 1px solid #456;
-    border-radius: 4px;
-    padding: 0.4rem 1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
-}
-.btn-voltar:hover { border-color: #9ab; color: #fff; }
-
 .detalhe-main {
     max-width: 900px;
     margin: 3rem auto;
@@ -219,9 +187,61 @@ body {
 }
 .btn-det-deletar:hover { background: #ff8000; color: #fff; }
 
+.det-badge-tipo { text-transform: capitalize; color: #fff; border-color: #678; }
+
+/* Ficha técnica */
+.det-ficha {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem 1.5rem;
+}
+
+.det-ficha-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.det-ficha-item dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #678;
+}
+
+.det-ficha-item dd {
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+/* Elenco */
+.det-elenco {
+    color: #9ab;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+/* Link IMDb */
+.det-imdb-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: #f5c518;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #f5c518;
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    transition: all 0.2s ease;
+}
+.det-imdb-link:hover { background: #f5c518; color: #14181c; }
+
 @media (max-width: 560px) {
     .det-topo { flex-direction: column; }
     .det-poster, .det-poster-placeholder { width: 100%; height: 220px; }
     .det-titulo { font-size: 1.3rem; }
     .detalhe-main { margin: 1.5rem auto; }
+    .det-ficha { grid-template-columns: repeat(2, 1fr); }
 }

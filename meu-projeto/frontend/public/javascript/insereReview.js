@@ -6,7 +6,7 @@
 onload = () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-        location.href = "accounts/login.html";
+        location.href = "home.html";
         return;
     }
     document.getElementById("buscaOmdb").addEventListener("click", buscarOmdb);

@@ -9,7 +9,7 @@ let usuarioLogado = null;
 onload = () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-        location.href = "accounts/login.html";
+        location.href = "home.html";
         return;
     }
     carregarUsuarioLogado()
@@ -211,12 +211,13 @@ async function exibeListaDeAvaliacoes(params = {}) {
  * :return: elemento article do card
  */
 function criaCardLista(av) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     const article = document.createElement("article");
     article.className = "avaliacao-card";
     // Poster
-    const posterHtml = av["poster_midia"]
-        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${(_a = av["titulo_midia"]) !== null && _a !== void 0 ? _a : ""}" class="midia-poster"></div>`
+    const m = (_a = av["midia_detalhes"]) !== null && _a !== void 0 ? _a : {};
+    const posterHtml = m["poster_url"]
+        ? `<div class="poster-container"><img src="${m["poster_url"]}" alt="${(_b = m["titulo"]) !== null && _b !== void 0 ? _b : ""}" class="midia-poster"></div>`
         : "";
     // Data
     const dataHtml = av["assistido_em"]
@@ -236,9 +237,9 @@ function criaCardLista(av) {
         <div class="card-content">
             <div class="card-header">
                 <span class="pessoa-nome">${autor !== null && autor !== void 0 ? autor : ""}</span>
-                <span class="nota">${(_b = av["nota"]) !== null && _b !== void 0 ? _b : ""}</span>
+                <span class="nota">${(_c = av["nota"]) !== null && _c !== void 0 ? _c : ""}</span>
             </div>
-            <h2 class="midia-titulo">${(_c = av["titulo_midia"]) !== null && _c !== void 0 ? _c : "—"}</h2>
+            <h2 class="midia-titulo">${(_d = m["titulo"]) !== null && _d !== void 0 ? _d : "—"}</h2>
             ${dataHtml}
             <p class="comentario">${av["comentario"] || "Sem comentário"}</p>
             ${acoesHtml}
@@ -262,14 +263,7 @@ function criaCardLista(av) {
     return article;
 }
 function obterAutorAvaliacaoLista(av) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
-    const candidato = (_d = (_c = (_b = (_a = av["usuario"]) !== null && _a !== void 0 ? _a : av["username"]) !== null && _b !== void 0 ? _b : av["user"]) !== null && _c !== void 0 ? _c : av["autor"]) !== null && _d !== void 0 ? _d : av["owner"];
-    if (typeof candidato === "string" && candidato.trim())
-        return candidato;
-    const candidatoObjeto = (_k = (_h = (_f = (_e = av["usuario"]) === null || _e === void 0 ? void 0 : _e.username) !== null && _f !== void 0 ? _f : (_g = av["user"]) === null || _g === void 0 ? void 0 : _g.username) !== null && _h !== void 0 ? _h : (_j = av["autor"]) === null || _j === void 0 ? void 0 : _j.username) !== null && _k !== void 0 ? _k : (_l = av["owner"]) === null || _l === void 0 ? void 0 : _l.username;
-    if (typeof candidatoObjeto === "string" && candidatoObjeto.trim())
-        return candidatoObjeto;
-    return null;
+    return typeof av["username"] === "string" && av["username"].trim() ? av["username"] : null;
 }
 /**
  * Formata data ISO (YYYY-MM-DD) para DD/MM/YYYY.

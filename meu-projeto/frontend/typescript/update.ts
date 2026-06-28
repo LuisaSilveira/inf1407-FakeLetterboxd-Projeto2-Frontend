@@ -2,10 +2,11 @@ let midiaId: number | null = null;
 
 onload = async () => {
     const token = localStorage.getItem("access_token");
-    if (!token) { location.href = "accounts/login.html"; return; }
+    if (!token) { location.href = "home.html"; return; }
 
-    const id = new URLSearchParams(window.location.search).get("id");
-    if (!id) { location.href = "/"; return; }
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    if (!id) { location.href = "index.html"; return; }
 
     await carregarAvaliacao(id);
     document.getElementById("atualiza")!.addEventListener("click", () => atualizarAvaliacao(id));
@@ -20,26 +21,28 @@ onload = async () => {
 async function carregarAvaliacao(id: string): Promise<void> {
     try {
         const response = await authFetch(backendAddress + "midias/avaliacao/" + id + "/");
-        if (!response.ok) { location.href = "/"; return; }
+        if (!response.ok) { location.href = "index.html"; return; }
 
         const av = await response.json();
 
         // av["midia"] é o ID numérico da mídia
         midiaId = av["midia"] ?? null;
 
-        // Preenche info da mídia com os campos que o backend já retorna na avaliação
+        // Todos os detalhes da mídia vêm dentro de midia_detalhes
+        const m = av["midia_detalhes"] ?? {};
+
         const poster = document.getElementById("poster-midia") as HTMLImageElement;
-        const posterSrc: string = av["poster_midia"] ?? "";
+        const posterSrc: string = m["poster_url"] ?? "";
         if (posterSrc) { poster.src = posterSrc; } else { poster.style.display = "none"; }
 
-        (document.getElementById("titulo-midia") as HTMLElement).textContent = av["titulo_midia"] ?? "—";
+        (document.getElementById("titulo-midia") as HTMLElement).textContent = m["titulo"] ?? "—";
 
-        const tipo: string = av["tipo_midia"] ?? "";
-        const genero: string = av["genero_midia"] ?? "";
+        const tipo: string = m["tipo"] ?? "";
+        const genero: string = m["generos"] ?? "";
         const detalhes = [tipo, genero].filter(Boolean).join(" • ");
         (document.getElementById("detalhes-midia") as HTMLElement).textContent = detalhes;
 
-        (document.getElementById("sinopse-midia") as HTMLElement).textContent = av["sinopse"] ?? av["sinopse_midia"] ?? "";
+        (document.getElementById("sinopse-midia") as HTMLElement).textContent = m["sinopse"] ?? "";
 
         // Preenche form
         (document.getElementById("nota") as HTMLSelectElement).value = String(av["nota"] ?? 3);

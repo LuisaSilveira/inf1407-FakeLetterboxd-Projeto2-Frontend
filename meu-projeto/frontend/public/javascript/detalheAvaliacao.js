@@ -6,16 +6,15 @@
 onload = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-        location.href = "accounts/login.html";
+        location.href = "home.html";
         return;
     }
     const params = new URLSearchParams(location.search);
     const id = params.get("id");
     if (!id) {
-        location.href = "/";
+        location.href = "home.html";
         return;
     }
-    document.getElementById("btn-voltar").addEventListener("click", () => history.back());
     const usuarioLogado = await buscarUsuarioLogado();
     await carregarDetalheAvaliacao(Number(id), usuarioLogado);
 };
@@ -41,7 +40,7 @@ async function carregarDetalheAvaliacao(id, usuarioLogado) {
             return;
         }
         if (response.status === 404) {
-            main.innerHTML = `<div class="detalhe-erro"><p>Avaliação não encontrada.</p><a href="/" class="btn-back">← Voltar à lista</a></div>`;
+            main.innerHTML = `<div class="detalhe-erro"><p>Avaliação não encontrada.</p><a href="index.html" class="btn-back">← Voltar à lista</a></div>`;
             return;
         }
         if (!response.ok) {
@@ -56,48 +55,101 @@ async function carregarDetalheAvaliacao(id, usuarioLogado) {
     }
 }
 function renderizarDetalhe(av, main, usuarioLogado, id) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-    const posterSrc = (_b = (_a = av["poster_midia"]) !== null && _a !== void 0 ? _a : av["poster_url"]) !== null && _b !== void 0 ? _b : "";
-    const titulo = (_c = av["titulo_midia"]) !== null && _c !== void 0 ? _c : "—";
-    const tipo = (_d = av["tipo_midia"]) !== null && _d !== void 0 ? _d : "";
-    const genero = (_e = av["genero_midia"]) !== null && _e !== void 0 ? _e : "";
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+    const m = (_a = av["midia_detalhes"]) !== null && _a !== void 0 ? _a : {};
+    const posterSrc = (_b = m["poster_url"]) !== null && _b !== void 0 ? _b : "";
+    const titulo = (_c = m["titulo"]) !== null && _c !== void 0 ? _c : "—";
+    const tipo = (_d = m["tipo"]) !== null && _d !== void 0 ? _d : "";
+    const genero = (_e = m["generos"]) !== null && _e !== void 0 ? _e : "";
+    const sinopse = (_f = m["sinopse"]) !== null && _f !== void 0 ? _f : "";
+    const diretor = (_g = m["diretor"]) !== null && _g !== void 0 ? _g : "";
+    const ano = m["ano_lancamento"] ? String(m["ano_lancamento"]) : "";
+    const duracao = (_h = m["duracao"]) !== null && _h !== void 0 ? _h : "";
+    const idioma = (_j = m["idioma"]) !== null && _j !== void 0 ? _j : "";
+    const pais = (_k = m["pais"]) !== null && _k !== void 0 ? _k : "";
+    const elenco = (_l = m["elenco"]) !== null && _l !== void 0 ? _l : "";
+    const classificacao = (_m = m["classificacao"]) !== null && _m !== void 0 ? _m : "";
+    const mediaNotas = m["media_notas"] != null ? String(m["media_notas"]) : "";
+    const totalAvaliacoes = m["total_avaliacoes"] != null ? String(m["total_avaliacoes"]) : "";
+    const numTemporadas = m["num_temporadas"] ? String(m["num_temporadas"]) : "";
     const nota = av["nota"] != null ? String(av["nota"]) : "";
-    const comentario = (_f = av["comentario"]) !== null && _f !== void 0 ? _f : "";
-    const sinopse = (_h = (_g = av["sinopse"]) !== null && _g !== void 0 ? _g : av["sinopse_midia"]) !== null && _h !== void 0 ? _h : "";
-    const autor = (_j = av["username"]) !== null && _j !== void 0 ? _j : "";
+    const comentario = (_o = av["comentario"]) !== null && _o !== void 0 ? _o : "";
+    const autor = (_p = av["username"]) !== null && _p !== void 0 ? _p : "";
     const assistido = av["assistido_em"] ? "Assistido em " + formatarDataDetalhe(av["assistido_em"]) : "";
     const avaliado = av["dt_avaliacao"] ? "Avaliado em " + formatarDataDetalhe(av["dt_avaliacao"].split("T")[0]) : "";
     const atualizado = av["dt_atualizacao"] ? "Atualizado em " + formatarDataDetalhe(av["dt_atualizacao"].split("T")[0]) : "";
     const ehDono = !!usuarioLogado && autor === usuarioLogado;
+    // Poster
     const posterHtml = posterSrc
         ? `<img src="${posterSrc}" alt="${titulo}" class="det-poster">`
         : `<div class="det-poster-placeholder"></div>`;
+    // Sinopse
     const sinopseHtml = sinopse
         ? `<div class="det-secao">
-                <h3 class="det-secao-titulo">Sinopse</h3>
-                <p class="det-sinopse">${sinopse}</p>
+               <h3 class="det-secao-titulo">Sinopse</h3>
+               <p class="det-sinopse">${sinopse}</p>
            </div>`
         : "";
+    // Ficha técnica
+    const fichaItens = [];
+    if (diretor)
+        fichaItens.push({ label: "Diretor", value: diretor });
+    if (ano)
+        fichaItens.push({ label: "Ano", value: ano });
+    if (duracao)
+        fichaItens.push({ label: "Duração", value: duracao });
+    if (tipo === "serie" && numTemporadas)
+        fichaItens.push({ label: "Temporadas", value: numTemporadas });
+    if (idioma)
+        fichaItens.push({ label: "Idioma", value: idioma });
+    if (pais)
+        fichaItens.push({ label: "País", value: pais });
+    if (classificacao)
+        fichaItens.push({ label: "Classificação", value: classificacao });
+    if (mediaNotas)
+        fichaItens.push({ label: "Nota média", value: mediaNotas });
+    if (totalAvaliacoes)
+        fichaItens.push({ label: "Total de avaliações", value: totalAvaliacoes });
+    const fichaHtml = fichaItens.length > 0
+        ? `<div class="det-secao">
+               <h3 class="det-secao-titulo">Ficha Técnica</h3>
+               <dl class="det-ficha">
+                   ${fichaItens.map(item => `<div class="det-ficha-item"><dt>${item.label}</dt><dd>${item.value}</dd></div>`).join("")}
+               </dl>
+           </div>`
+        : "";
+    // Elenco
+    const elencoHtml = elenco
+        ? `<div class="det-secao">
+               <h3 class="det-secao-titulo">Elenco</h3>
+               <p class="det-elenco">${elenco}</p>
+           </div>`
+        : "";
+    // Ações
     const acoesHtml = ehDono
         ? `<div class="det-acoes">
-                <a href="update.html?id=${id}" class="btn-det-editar">Editar</a>
-                <button class="btn-det-deletar" id="btn-deletar-detalhe">Excluir</button>
+               <a href="update.html?id=${id}" class="btn-det-editar">Editar</a>
+               <button class="btn-det-deletar" id="btn-deletar-detalhe">Excluir</button>
            </div>`
         : "";
     main.innerHTML = `
         <div class="detalhe-card">
             <div class="det-topo">
-                <div class="det-poster-wrap">${posterHtml}</div>
+                <div class="det-poster-wrap">
+                    ${posterHtml}
+                </div>
                 <div class="det-info">
                     <h1 class="det-titulo">${titulo}</h1>
                     <div class="det-meta">
-                        ${tipo ? `<span class="det-badge">${tipo}</span>` : ""}
+                        ${tipo ? `<span class="det-badge det-badge-tipo">${tipo}</span>` : ""}
                         ${genero ? `<span class="det-badge">${genero}</span>` : ""}
                         ${nota ? `<span class="det-nota">${nota}</span>` : ""}
                     </div>
                     ${sinopseHtml}
+                    ${fichaHtml}
+                    ${elencoHtml}
                     <div class="det-secao">
-                        <h3 class="det-secao-titulo">Comentário${autor ? " de " + autor : ""}</h3>
+                        <h3 class="det-secao-titulo">Avaliação${autor ? " de " + autor : ""}</h3>
                         <p class="det-comentario">${comentario || "Sem comentário"}</p>
                     </div>
                     <div class="det-datas">

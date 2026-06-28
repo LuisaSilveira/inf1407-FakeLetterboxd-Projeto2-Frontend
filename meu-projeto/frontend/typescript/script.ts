@@ -9,7 +9,7 @@ let usuarioLogado: string | null = null;
 
 onload = () => {
     const token = localStorage.getItem("access_token");
-    if (!token) { location.href = "accounts/login.html"; return; }
+    if (!token) { location.href = "home.html"; return; }
 
     carregarUsuarioLogado()
         .then(() => exibeListaDeAvaliacoes())
@@ -217,8 +217,9 @@ function criaCardLista(av: any): HTMLElement {
     article.className = "avaliacao-card";
 
     // Poster
-    const posterHtml = av["poster_midia"]
-        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${av["titulo_midia"] ?? ""}" class="midia-poster"></div>`
+    const m = av["midia_detalhes"] ?? {};
+    const posterHtml = m["poster_url"]
+        ? `<div class="poster-container"><img src="${m["poster_url"]}" alt="${m["titulo"] ?? ""}" class="midia-poster"></div>`
         : "";
 
     // Data
@@ -243,7 +244,7 @@ function criaCardLista(av: any): HTMLElement {
                 <span class="pessoa-nome">${autor ?? ""}</span>
                 <span class="nota">${av["nota"] ?? ""}</span>
             </div>
-            <h2 class="midia-titulo">${av["titulo_midia"] ?? "—"}</h2>
+            <h2 class="midia-titulo">${m["titulo"] ?? "—"}</h2>
             ${dataHtml}
             <p class="comentario">${av["comentario"] || "Sem comentário"}</p>
             ${acoesHtml}
@@ -272,13 +273,7 @@ function criaCardLista(av: any): HTMLElement {
 }
 
 function obterAutorAvaliacaoLista(av: any): string | null {
-    const candidato = av["usuario"] ?? av["username"] ?? av["user"] ?? av["autor"] ?? av["owner"];
-    if (typeof candidato === "string" && candidato.trim()) return candidato;
-
-    const candidatoObjeto = av["usuario"]?.username ?? av["user"]?.username ?? av["autor"]?.username ?? av["owner"]?.username;
-    if (typeof candidatoObjeto === "string" && candidatoObjeto.trim()) return candidatoObjeto;
-
-    return null;
+    return typeof av["username"] === "string" && av["username"].trim() ? av["username"] : null;
 }
 
 /**

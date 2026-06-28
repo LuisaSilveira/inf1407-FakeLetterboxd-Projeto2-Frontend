@@ -7,7 +7,7 @@ let usuarioPerfil: string | null = null;
 
 onload = async () => {
     const token = localStorage.getItem("access_token");
-    if (!token) { location.href = "accounts/login.html"; return; }
+    if (!token) { location.href = "home.html"; return; }
 
     await carregarPerfil();
     await carregarAvaliacoesPerfil();
@@ -120,8 +120,9 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
 
     const autor = obterAutorAvaliacaoPerfil(av) ?? "";
 
-    const posterHtml = av["poster_midia"]
-        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${av["titulo_midia"] ?? ""}" class="midia-poster"></div>` : "";
+    const m = av["midia_detalhes"] ?? {};
+    const posterHtml = m["poster_url"]
+        ? `<div class="poster-container"><img src="${m["poster_url"]}" alt="${m["titulo"] ?? ""}" class="midia-poster"></div>` : "";
 
     const dataHtml = av["assistido_em"]
         ? `<div class="assistido-em">Assistido em ${formatarDataPerfil(av["assistido_em"])}</div>` : "";
@@ -133,7 +134,7 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
                 <span class="pessoa-nome">${autor}</span>
                 <span class="nota">${av["nota"] ?? ""}</span>
             </div>
-            <h2 class="midia-titulo">${av["titulo_midia"] ?? "—"}</h2>
+            <h2 class="midia-titulo">${m["titulo"] ?? "—"}</h2>
             ${dataHtml}
             <p class="comentario">${av["comentario"] || "Sem comentário"}</p>
             <div class="card-actions">
@@ -159,13 +160,7 @@ function criaCardPerfilFnFn(av: any, onApagar: (id: number) => void): HTMLElemen
 }
 
 function obterAutorAvaliacaoPerfil(av: any): string | null {
-    const candidato = av["usuario"] ?? av["username"] ?? av["user"] ?? av["autor"] ?? av["owner"];
-    if (typeof candidato === "string" && candidato.trim()) return candidato;
-
-    const candidatoObjeto = av["usuario"]?.username ?? av["user"]?.username ?? av["autor"]?.username ?? av["owner"]?.username;
-    if (typeof candidatoObjeto === "string" && candidatoObjeto.trim()) return candidatoObjeto;
-
-    return null;
+    return typeof av["username"] === "string" && av["username"].trim() ? av["username"] : null;
 }
 
 /** Configura os botões de logout (modal). */
@@ -239,7 +234,7 @@ function configurarDeletar(): void {
             if (response.ok || response.status === 204) {
                 localStorage.removeItem("access_token");
                 localStorage.removeItem("refresh_token");
-                location.href = "/";
+                location.href = "home.html";
             }
         } catch (error) { console.error("Erro ao deletar conta:", error); }
     });

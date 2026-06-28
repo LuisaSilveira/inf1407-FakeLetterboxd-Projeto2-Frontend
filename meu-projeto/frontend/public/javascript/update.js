@@ -3,12 +3,13 @@ let midiaId = null;
 onload = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-        location.href = "accounts/login.html";
+        location.href = "home.html";
         return;
     }
-    const id = new URLSearchParams(window.location.search).get("id");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
     if (!id) {
-        location.href = "/";
+        location.href = "index.html";
         return;
     }
     await carregarAvaliacao(id);
@@ -25,27 +26,28 @@ async function carregarAvaliacao(id) {
     try {
         const response = await authFetch(backendAddress + "midias/avaliacao/" + id + "/");
         if (!response.ok) {
-            location.href = "/";
+            location.href = "index.html";
             return;
         }
         const av = await response.json();
         // av["midia"] é o ID numérico da mídia
         midiaId = (_a = av["midia"]) !== null && _a !== void 0 ? _a : null;
-        // Preenche info da mídia com os campos que o backend já retorna na avaliação
+        // Todos os detalhes da mídia vêm dentro de midia_detalhes
+        const m = (_b = av["midia_detalhes"]) !== null && _b !== void 0 ? _b : {};
         const poster = document.getElementById("poster-midia");
-        const posterSrc = (_b = av["poster_midia"]) !== null && _b !== void 0 ? _b : "";
+        const posterSrc = (_c = m["poster_url"]) !== null && _c !== void 0 ? _c : "";
         if (posterSrc) {
             poster.src = posterSrc;
         }
         else {
             poster.style.display = "none";
         }
-        document.getElementById("titulo-midia").textContent = (_c = av["titulo_midia"]) !== null && _c !== void 0 ? _c : "—";
-        const tipo = (_d = av["tipo_midia"]) !== null && _d !== void 0 ? _d : "";
-        const genero = (_e = av["genero_midia"]) !== null && _e !== void 0 ? _e : "";
+        document.getElementById("titulo-midia").textContent = (_d = m["titulo"]) !== null && _d !== void 0 ? _d : "—";
+        const tipo = (_e = m["tipo"]) !== null && _e !== void 0 ? _e : "";
+        const genero = (_f = m["generos"]) !== null && _f !== void 0 ? _f : "";
         const detalhes = [tipo, genero].filter(Boolean).join(" • ");
         document.getElementById("detalhes-midia").textContent = detalhes;
-        document.getElementById("sinopse-midia").textContent = (_g = (_f = av["sinopse"]) !== null && _f !== void 0 ? _f : av["sinopse_midia"]) !== null && _g !== void 0 ? _g : "";
+        document.getElementById("sinopse-midia").textContent = (_g = m["sinopse"]) !== null && _g !== void 0 ? _g : "";
         // Preenche form
         document.getElementById("nota").value = String((_h = av["nota"]) !== null && _h !== void 0 ? _h : 3);
         document.getElementById("comentario").value = (_j = av["comentario"]) !== null && _j !== void 0 ? _j : "";

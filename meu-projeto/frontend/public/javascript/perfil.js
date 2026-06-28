@@ -7,7 +7,7 @@ let usuarioPerfil = null;
 onload = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-        location.href = "accounts/login.html";
+        location.href = "home.html";
         return;
     }
     await carregarPerfil();
@@ -101,7 +101,7 @@ async function carregarAvaliacoesPerfil(params = {}) {
  * :param onApagar: callback chamado ao clicar em Excluir
  */
 function criaCardPerfilFnFn(av, onApagar) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
     const article = document.createElement("article");
     article.className = "avaliacao-card";
     article.style.cursor = "pointer";
@@ -111,8 +111,9 @@ function criaCardPerfilFnFn(av, onApagar) {
         location.href = "detalheAvaliacao.html?id=" + av["id"];
     });
     const autor = (_a = obterAutorAvaliacaoPerfil(av)) !== null && _a !== void 0 ? _a : "";
-    const posterHtml = av["poster_midia"]
-        ? `<div class="poster-container"><img src="${av["poster_midia"]}" alt="${(_b = av["titulo_midia"]) !== null && _b !== void 0 ? _b : ""}" class="midia-poster"></div>` : "";
+    const m = (_b = av["midia_detalhes"]) !== null && _b !== void 0 ? _b : {};
+    const posterHtml = m["poster_url"]
+        ? `<div class="poster-container"><img src="${m["poster_url"]}" alt="${(_c = m["titulo"]) !== null && _c !== void 0 ? _c : ""}" class="midia-poster"></div>` : "";
     const dataHtml = av["assistido_em"]
         ? `<div class="assistido-em">Assistido em ${formatarDataPerfil(av["assistido_em"])}</div>` : "";
     article.innerHTML = `
@@ -120,9 +121,9 @@ function criaCardPerfilFnFn(av, onApagar) {
         <div class="card-content">
             <div class="card-header">
                 <span class="pessoa-nome">${autor}</span>
-                <span class="nota">${(_c = av["nota"]) !== null && _c !== void 0 ? _c : ""}</span>
+                <span class="nota">${(_d = av["nota"]) !== null && _d !== void 0 ? _d : ""}</span>
             </div>
-            <h2 class="midia-titulo">${(_d = av["titulo_midia"]) !== null && _d !== void 0 ? _d : "—"}</h2>
+            <h2 class="midia-titulo">${(_e = m["titulo"]) !== null && _e !== void 0 ? _e : "—"}</h2>
             ${dataHtml}
             <p class="comentario">${av["comentario"] || "Sem comentário"}</p>
             <div class="card-actions">
@@ -144,14 +145,7 @@ function criaCardPerfilFnFn(av, onApagar) {
     return article;
 }
 function obterAutorAvaliacaoPerfil(av) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
-    const candidato = (_d = (_c = (_b = (_a = av["usuario"]) !== null && _a !== void 0 ? _a : av["username"]) !== null && _b !== void 0 ? _b : av["user"]) !== null && _c !== void 0 ? _c : av["autor"]) !== null && _d !== void 0 ? _d : av["owner"];
-    if (typeof candidato === "string" && candidato.trim())
-        return candidato;
-    const candidatoObjeto = (_k = (_h = (_f = (_e = av["usuario"]) === null || _e === void 0 ? void 0 : _e.username) !== null && _f !== void 0 ? _f : (_g = av["user"]) === null || _g === void 0 ? void 0 : _g.username) !== null && _h !== void 0 ? _h : (_j = av["autor"]) === null || _j === void 0 ? void 0 : _j.username) !== null && _k !== void 0 ? _k : (_l = av["owner"]) === null || _l === void 0 ? void 0 : _l.username;
-    if (typeof candidatoObjeto === "string" && candidatoObjeto.trim())
-        return candidatoObjeto;
-    return null;
+    return typeof av["username"] === "string" && av["username"].trim() ? av["username"] : null;
 }
 /** Configura os botões de logout (modal). */
 function configurarLogout() {
@@ -221,7 +215,7 @@ function configurarDeletar() {
             if (response.ok || response.status === 204) {
                 localStorage.removeItem("access_token");
                 localStorage.removeItem("refresh_token");
-                location.href = "/";
+                location.href = "home.html";
             }
         }
         catch (error) {
